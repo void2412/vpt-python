@@ -19,7 +19,7 @@ class menu_thai_co(QMainWindow, autoTemplate.Ui_MainWindow):
         self.auto = autoThaiCo()
         self.titleList = [self.lineEdit1, self.lineEdit2, self.lineEdit3, self.lineEdit4, self.lineEdit5]
         self.startBtn.clicked.connect(self.startBtnClicked)
-        self.delayLine.setText('1000')
+        self.delayLine.setText('500')
 
     def startBtnClicked(self):
         self.auto.titleList.clear()
@@ -61,6 +61,7 @@ class autoThaiCo:
         self.qphu = imgProcess.getImg('./img/thai_co/qphu.png')
         self.bo = imgProcess.getImg('./img/thai_co/bo.png')
         self.thaicoQ = imgProcess.getImg('./img/thai_co/thaicoQ.png')
+        self.thongtin = imgProcess.getImg('./img/thai_co/thongtin.png')
         self.titleList = []
         self.handleList = []
         self.auto_threads = []
@@ -111,6 +112,8 @@ class autoThaiCo:
                 AutoUtils.ResizeWindow(hwnd)
 
             if self.state == state.nhanQ:
+                self.clickThaiCo(hwnd)
+                time.sleep(0.5)
                 screen = imgProcess.CaptureWindow(hwnd)
                 self.p_roikhoi = imgProcess.findImgPointandFixCoord(self.roikhoi, screen)
                 if self.p_roikhoi != Point(0, 0):
@@ -139,9 +142,8 @@ class autoThaiCo:
                     self.p_nhanQ = Point(0, 0)
                     self.state = state.danhBoss
             if self.state == state.boQ:
-                check = self.checkFight(hwnd)
-                xongQCheck = self.checkXongQ(hwnd)
-                if check is False and xongQCheck is True:
+                checkFight = self.checkFight(hwnd)
+                if checkFight is False:
                     AutoUtils.click(hwnd, nv)
                     time.sleep(0.5)
                     screen = imgProcess.CaptureWindow(hwnd)
@@ -175,6 +177,13 @@ class autoThaiCo:
                                     AutoUtils.click(hwnd, thaicoselected)
                                 time.sleep(0.5)
                             self.boQ(hwnd)
+
+            if self.state == state.danhBoss:
+                checkFight = self.checkFight2(hwnd)
+                if checkFight is True:
+                    self.state = state.boQ
+                else:
+                    self.clickThaiCo(hwnd)
             time.sleep(delay)
 
     def boQ(self, hwnd):
@@ -201,19 +210,17 @@ class autoThaiCo:
             time.sleep(0.5)
         tatnv = Point(self.p_bo.x + 379, self.p_bo.y - 337)
         AutoUtils.click(hwnd, tatnv)
+        self.state =  state.nhanQ
 
-    def checkXongQ(self, hwnd):
+    def clickThaiCo(self,hwnd):
         screen = imgProcess.CaptureWindow(hwnd)
-        p = imgProcess.findImgPointandFixCoord(self.thaico, screen, 0.999)
+        p = imgProcess.findImgPointandFixCoord(self.thaico,screen,0.999)
         if p != Point(0, 0):
-            AutoUtils.click(hwnd, p)
-            time.sleep(2)
-            screen = imgProcess.CaptureWindow(hwnd)
-            p1 = imgProcess.findImgPoint(self.roikhoi, screen)
-            if p1 != Point(0, 0):
-                return False
-            else:
-                return True
+            AutoUtils.click(hwnd,p)
+            return True
+        else:
+            return False
+        pass
 
     def checkFight(self, hwnd):
         screen = imgProcess.CaptureWindow(hwnd)
@@ -223,6 +230,13 @@ class autoThaiCo:
         else:
             return True
 
+    def checkFight2(self,hwnd):
+        screen = imgProcess.CaptureWindow(hwnd)
+        p = imgProcess.findImgPoint(self.thongtin, screen)
+        if p != Point(0, 0):
+            return True
+        else:
+            return False
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
