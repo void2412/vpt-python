@@ -1,0 +1,446 @@
+([('autotraQ.exe',
+   'E:\\programming_project\\VPT Project\\build\\autotraQ\\autotraQ.exe',
+   'EXECUTABLE'),
+  ('autotraQ.exe.manifest',
+   'E:\\programming_project\\VPT '
+   'Project\\build\\autotraQ\\autotraQ.exe.manifest',
+   'BINARY'),
+  ('libGLESv2.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\libGLESv2.dll',
+   'BINARY'),
+  ('opengl32sw.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\opengl32sw.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\imageformats\\qgif.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\imageformats\\qgif.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\imageformats\\qicns.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\imageformats\\qicns.dll',
+   'BINARY'),
+  ('libopenblas.4SP5SUA7CBGXUEOC35YP2ASOICYYEQZZ.gfortran-win_amd64.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\.libs\\libopenblas.4SP5SUA7CBGXUEOC35YP2ASOICYYEQZZ.gfortran-win_amd64.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\imageformats\\qwbmp.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\imageformats\\qwbmp.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\platforms\\qoffscreen.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\platforms\\qoffscreen.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+   'BINARY'),
+  ('d3dcompiler_47.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\d3dcompiler_47.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\styles\\qwindowsvistastyle.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\styles\\qwindowsvistastyle.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\platforms\\qminimal.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\platforms\\qminimal.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\platforms\\qwebgl.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\platforms\\qwebgl.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\iconengines\\qsvgicon.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\iconengines\\qsvgicon.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\imageformats\\qtga.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\imageformats\\qtga.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\imageformats\\qjpeg.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\imageformats\\qjpeg.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\imageformats\\qwebp.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\imageformats\\qwebp.dll',
+   'BINARY'),
+  ('libEGL.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\libEGL.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\imageformats\\qico.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\imageformats\\qico.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\platforms\\qwindows.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\platforms\\qwindows.dll',
+   'BINARY'),
+  ('pythoncom37.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\pywin32_system32\\pythoncom37.dll',
+   'BINARY'),
+  ('pywintypes37.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\pywin32_system32\\pywintypes37.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\imageformats\\qtiff.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\imageformats\\qtiff.dll',
+   'BINARY'),
+  ('cv2\\opencv_videoio_ffmpeg451_64.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\cv2\\opencv_videoio_ffmpeg451_64.dll',
+   'BINARY'),
+  ('PyQt5\\Qt\\plugins\\imageformats\\qsvg.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\plugins\\imageformats\\qsvg.dll',
+   'BINARY'),
+  ('_multiprocessing',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\_multiprocessing.pyd',
+   'EXTENSION'),
+  ('pyexpat',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\pyexpat.pyd',
+   'EXTENSION'),
+  ('_ssl',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\_ssl.pyd',
+   'EXTENSION'),
+  ('_hashlib',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\_hashlib.pyd',
+   'EXTENSION'),
+  ('unicodedata',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\unicodedata.pyd',
+   'EXTENSION'),
+  ('_decimal',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\_decimal.pyd',
+   'EXTENSION'),
+  ('_socket',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\_socket.pyd',
+   'EXTENSION'),
+  ('select',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\select.pyd',
+   'EXTENSION'),
+  ('_lzma',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\_lzma.pyd',
+   'EXTENSION'),
+  ('_bz2',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\_bz2.pyd',
+   'EXTENSION'),
+  ('_ctypes',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\_ctypes.pyd',
+   'EXTENSION'),
+  ('_queue',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\_queue.pyd',
+   'EXTENSION'),
+  ('win32trace',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\win32\\win32trace.pyd',
+   'EXTENSION'),
+  ('win32ui',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\Pythonwin\\win32ui.pyd',
+   'EXTENSION'),
+  ('_win32sysloader',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\win32\\_win32sysloader.pyd',
+   'EXTENSION'),
+  ('win32api',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\win32\\win32api.pyd',
+   'EXTENSION'),
+  ('win32wnet',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\win32\\win32wnet.pyd',
+   'EXTENSION'),
+  ('win32com.shell.shell',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\win32comext\\shell\\shell.pyd',
+   'EXTENSION'),
+  ('win32gui',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\win32\\win32gui.pyd',
+   'EXTENSION'),
+  ('PyQt5.QtWidgets',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\QtWidgets.pyd',
+   'EXTENSION'),
+  ('PyQt5.QtCore',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\QtCore.pyd',
+   'EXTENSION'),
+  ('PyQt5.QtGui',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\QtGui.pyd',
+   'EXTENSION'),
+  ('PyQt5.sip',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\sip.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('PIL._imagingtk',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PIL\\_imagingtk.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('PIL._webp',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PIL\\_webp.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('PIL._imaging',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PIL\\_imaging.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('_elementtree',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\_elementtree.pyd',
+   'EXTENSION'),
+  ('numpy.core._multiarray_umath',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\core\\_multiarray_umath.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.core._multiarray_tests',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\core\\_multiarray_tests.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('win32pdh',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\win32\\win32pdh.pyd',
+   'EXTENSION'),
+  ('numpy.linalg.lapack_lite',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\linalg\\lapack_lite.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.random.mtrand',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\random\\mtrand.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.random._sfc64',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\random\\_sfc64.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.random._philox',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\random\\_philox.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.random._pcg64',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\random\\_pcg64.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.random._mt19937',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\random\\_mt19937.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.random.bit_generator',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\random\\bit_generator.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.random._generator',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\random\\_generator.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.random._bounded_integers',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\random\\_bounded_integers.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.random._common',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\random\\_common.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.fft._pocketfft_internal',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\fft\\_pocketfft_internal.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('numpy.linalg._umath_linalg',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\numpy\\linalg\\_umath_linalg.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('cv2.cv2',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\cv2\\cv2.cp37-win_amd64.pyd',
+   'EXTENSION'),
+  ('VCRUNTIME140.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\VCRUNTIME140.dll',
+   'BINARY'),
+  ('VCRUNTIME140_1.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\VCRUNTIME140_1.dll',
+   'BINARY'),
+  ('MSVCP140.dll',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\MSVCP140.dll',
+   'BINARY'),
+  ('Qt5Core.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\Qt5Core.dll',
+   'BINARY'),
+  ('Qt5Gui.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\Qt5Gui.dll',
+   'BINARY'),
+  ('Qt5DBus.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\Qt5DBus.dll',
+   'BINARY'),
+  ('Qt5Widgets.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\Qt5Widgets.dll',
+   'BINARY'),
+  ('Qt5WebSockets.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\Qt5WebSockets.dll',
+   'BINARY'),
+  ('Qt5Network.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\Qt5Network.dll',
+   'BINARY'),
+  ('Qt5Quick.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\Qt5Quick.dll',
+   'BINARY'),
+  ('Qt5Svg.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\Qt5Svg.dll',
+   'BINARY'),
+  ('python37.dll',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\python37.dll',
+   'BINARY'),
+  ('libcrypto-1_1.dll',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\libcrypto-1_1.dll',
+   'BINARY'),
+  ('libssl-1_1.dll',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\DLLs\\libssl-1_1.dll',
+   'BINARY'),
+  ('mfc140u.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\Pythonwin\\mfc140u.dll',
+   'BINARY'),
+  ('python3.dll',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\python3.dll',
+   'BINARY'),
+  ('MSVCP140_1.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\MSVCP140_1.dll',
+   'BINARY'),
+  ('Qt5QmlModels.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\Qt5QmlModels.dll',
+   'BINARY'),
+  ('Qt5Qml.dll',
+   'e:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\bin\\Qt5Qml.dll',
+   'BINARY'),
+  ('base_library.zip',
+   'E:\\programming_project\\VPT Project\\build\\autotraQ\\base_library.zip',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_gd.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_gd.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_fi.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_fi.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_ko.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_ko.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_ja.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_ja.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_lv.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_lv.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_he.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_he.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_es.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_es.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_ru.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_ru.qm',
+   'DATA'),
+  ('Include\\pyconfig.h',
+   'C:\\Users\\void2\\AppData\\Local\\Programs\\Python\\Python37\\Include\\pyconfig.h',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_en.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_en.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_bg.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_bg.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_de.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_uk.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_uk.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_zh_TW.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_zh_TW.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_ca.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_fr.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_fr.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_da.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_da.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_cs.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_cs.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_hu.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_pl.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_pl.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_sk.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_sk.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_ar.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_ar.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_tr.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_tr.qm',
+   'DATA'),
+  ('PyQt5\\Qt\\translations\\qtbase_it.qm',
+   'E:\\programming_project\\vpt '
+   'project\\venv\\lib\\site-packages\\PyQt5\\Qt\\translations\\qtbase_it.qm',
+   'DATA'),
+  ('img\\nhantraQ\\npc nhiem vu.PNG',
+   'img\\nhantraQ\\npc nhiem vu.PNG',
+   'DATA'),
+  ('img\\nhantraQ\\trilieu.png', 'img\\nhantraQ\\trilieu.png', 'DATA'),
+  ('img\\nhantraQ\\nhan.png', 'img\\nhantraQ\\nhan.png', 'DATA'),
+  ('img\\nhantraQ\\canvedht.png', 'img\\nhantraQ\\canvedht.png', 'DATA'),
+  ('img\\nhantraQ\\co.png', 'img\\nhantraQ\\co.png', 'DATA'),
+  ('img\\nhantraQ\\tonle.png', 'img\\nhantraQ\\tonle.png', 'DATA'),
+  ('img\\nhantraQ\\xong.png', 'img\\nhantraQ\\xong.png', 'DATA'),
+  ('img\\nhantraQ\\hoicham.png', 'img\\nhantraQ\\hoicham.png', 'DATA'),
+  ('img\\nhantraQ\\nhiemvu.png', 'img\\nhantraQ\\nhiemvu.png', 'DATA'),
+  ('img\\nhantraQ\\nhan2.png', 'img\\nhantraQ\\nhan2.png', 'DATA'),
+  ('img\\nhantraQ\\nhanQicon.png', 'img\\nhantraQ\\nhanQicon.png', 'DATA'),
+  ('img\\nhantraQ\\roikhoi.png', 'img\\nhantraQ\\roikhoi.png', 'DATA')],)
