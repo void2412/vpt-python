@@ -30,12 +30,14 @@ class menu_thai_co(QMainWindow, autoTemplate.Ui_MainWindow):
             for item in self.titleList:
                 if item.text() != "":
                     self.auto.titleList.append(item.text())
+            self.auto.state = state.nhanQ
             self.auto.start()
 
         else:
             self.started = False
             self.startBtn.setText('start')
             self.auto.stop()
+
 
 
 class state(enum.Enum):
@@ -104,6 +106,7 @@ class autoThaiCo:
     def doAuto(self, hwnd, delay):
         randomLoc = Point(967, 47)
         nv = Point(982, 649)
+
         while True:
             (x, y, x1, y1) = win32gui.GetWindowRect(hwnd)
             w = x1 - x
@@ -141,6 +144,8 @@ class autoThaiCo:
                     AutoUtils.click(hwnd, randomLoc)
                     self.p_nhanQ = Point(0, 0)
                     self.state = state.danhBoss
+
+
             if self.state == state.boQ:
                 checkFight = self.checkFight(hwnd)
                 if checkFight is False:
@@ -187,27 +192,24 @@ class autoThaiCo:
             time.sleep(delay)
 
     def boQ(self, hwnd):
-        randomLoc = Point(967, 47)
         screen = imgProcess.CaptureWindow(hwnd)
 
         thaicoselected = imgProcess.findImgPointandFixCoord(self.thaicoselected, screen, 0.7)
         while thaicoselected != Point(0, 0):
             AutoUtils.click(hwnd, thaicoselected)
-            time.sleep(0.5)
+            time.sleep(0.3)
             self.p_bo = imgProcess.findImgPointandFixCoord(self.bo, screen)
             if self.p_bo != Point(0, 0):
                 AutoUtils.click(hwnd, self.p_bo)
-            time.sleep(0.5)
+                time.sleep(0.3)
             screen = imgProcess.CaptureWindow(hwnd)
             self.p_co = imgProcess.findImgPointandFixCoord(self.co, screen)
             if self.p_co != Point(0, 0):
                 AutoUtils.click(hwnd, self.p_co)
-                time.sleep(0.5)
-                AutoUtils.click(hwnd, randomLoc)
-                time.sleep(0.5)
+                time.sleep(0.3)
             screen = imgProcess.CaptureWindow(hwnd)
             thaicoselected = imgProcess.findImgPointandFixCoord(self.thaicoselected, screen, 0.7)
-            time.sleep(0.5)
+            time.sleep(0.3)
         tatnv = Point(self.p_bo.x + 379, self.p_bo.y - 337)
         AutoUtils.click(hwnd, tatnv)
         self.state =  state.nhanQ
