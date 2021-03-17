@@ -1,5 +1,4 @@
 from gui import autoTemplate
-import AutoUtils
 import imgProcess
 import sys
 import autoit
@@ -187,7 +186,7 @@ class autoThaiCo:
             AutoUtils.click(hwnd, thaicoselected)
             time.sleep(0.5)
             self.p_bo = imgProcess.findImgPointandFixCoord(self.bo, screen)
-            if self.p_bo != Point(0,0):
+            if self.p_bo != Point(0, 0):
                 AutoUtils.click(hwnd, self.p_bo)
             time.sleep(0.5)
             screen = imgProcess.CaptureWindow(hwnd)
