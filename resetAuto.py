@@ -5,9 +5,7 @@ import autoit
 import time
 import sys
 import ctypes
-import mem_edit
 from mem_edit import Process
-import win32process
 from PyQt5.QtWidgets import *
 from imgProcess import Point
 from AutoUtils import thread_with_trace
@@ -18,7 +16,10 @@ class resetAutoUI(QMainWindow, resetAuto.Ui_MainWindow):
         self.setupUi(self)
         self.textBoxList = [self.lineEdit1,self.lineEdit2,self.lineEdit3,self.lineEdit4,self.lineEdit5]
         self.startBtnList = [self.startBtn1,self.startBtn2,self.startBtn3,self.startBtn4,self.startBtn5]
+        self.checkboxList = [self.checkBox,self.checkBox_2,self.checkBox_3,self.checkBox_4,self.checkBox_5]
         self.startStateList = [False,False,False,False,False]
+        for x in self.checkboxList:
+            x.setEnabled(False)
         self.delayLine.setText('10000')
         self.threads = [None]*5
         self.autoTat = imgProcess.getImg('./img/resetAuto/autoTat.png')
@@ -43,15 +44,17 @@ class resetAutoUI(QMainWindow, resetAuto.Ui_MainWindow):
             self.startBtnList[index].setText('start')
             self.threads[index].kill()
             self.threads[index] = None
+            self.checkboxList[index].setChecked(False)
 
     def createThread(self,index,title,delay):
-        th = thread_with_trace(target=self.doWork,args=(title,delay,))
+        th = thread_with_trace(target=self.doWork,args=(index,title,delay,))
         self.threads[index] = th
         pass
 
-    def doWork(self,title,delay):
+    def doWork(self,index,title,delay):
         autoPoint = Point(1029,605)
         hwnd = autoit.win_get_handle(title)
+        AutoUtils.ResizeWindow(hwnd)
         screen = imgProcess.CaptureWindow(hwnd)
         point = imgProcess.findImgPointandFixCoord(self.autoTat,screen)
         if(point != Point(0,0)):
@@ -82,6 +85,8 @@ class resetAutoUI(QMainWindow, resetAuto.Ui_MainWindow):
             if (point != Point(0, 0)):
                 AutoUtils.click(hwnd, autoPoint)
                 time.sleep(1)
+
+            self.checkboxList[index].setChecked(True)
 
             while(True):
                 num_cint = p.read_memory(addr,ctypes.c_int())
