@@ -79,6 +79,7 @@ class autoThaiCo:
         self.delay = 0
         self.state = state.boQ1
         self.init = True
+        self.clickTC = True
 
         self.p_bo = Point()
         self.p_qphu = Point()
@@ -196,9 +197,9 @@ class autoThaiCo:
 
     def doNhanQ(self,hwnd):
         res = False
-        randomLoc = Point(967, 47)
-        self.clickThaiCo(hwnd)
-        time.sleep(0.5)
+        if self.clickTC is True:
+            self.clickThaiCo(hwnd)
+            time.sleep(0.5)
         screen = imgProcess.CaptureWindow(hwnd)
         self.p_roikhoi = imgProcess.findImgPointandFixCoord(self.roikhoi, screen)
         if self.p_roikhoi != Point(0, 0):
@@ -209,23 +210,26 @@ class autoThaiCo:
                 AutoUtils.click(hwnd, self.p_quest)
             self.p_roikhoi = Point(0, 0)
             self.p_quest = Point(0, 0)
+            self.clickTC = False
 
+        screen = imgProcess.CaptureWindow(hwnd)
         self.p_npc = imgProcess.findImgPointandFixCoord(self.npc, screen, 0.7)
         if self.p_npc != Point(0, 0):
             self.p_nhanQ2 = imgProcess.findImgPointandFixCoord(self.nhanQ2, screen)
             if self.p_nhanQ2 != Point(0, 0):
                 AutoUtils.click(hwnd, self.p_nhanQ2)
-                time.sleep(0.2)
-                AutoUtils.click(hwnd, randomLoc)
                 self.p_nhanQ = Point(0, 0)
+            self.clickTC = False
 
+        screen = imgProcess.CaptureWindow(hwnd)
         self.p_nhanQ = imgProcess.findImgPointandFixCoord(self.nhanQ, screen)
         if self.p_nhanQ != Point(0, 0):
             AutoUtils.click(hwnd, self.p_nhanQ)
-            time.sleep(0.2)
-            AutoUtils.click(hwnd, randomLoc)
             self.p_nhanQ = Point(0, 0)
             res = True
+            self.clickTC = False
+        if res is True:
+            self.clickTC = True
         return res
 
     def boQ1(self, hwnd):
