@@ -1,12 +1,11 @@
 from gui import autotrain
-import AutoUtils
-import autoit
+import autoUtils
 import imgProcess
 import time
 import sys
 from PyQt5.QtWidgets import *
 from imgProcess import Point
-from AutoUtils import thread_with_trace
+from autoUtils import thread_with_trace
 import win32gui
 
 class trainWindow(QMainWindow,autotrain.Ui_MainWindow):
@@ -42,7 +41,7 @@ class trainWindow(QMainWindow,autotrain.Ui_MainWindow):
             if (title.text().strip() != ""):
                 self.auto.title.append(title.text())
         for title in self.auto.title:
-            hwnd = autoit.win_get_handle(title)
+            hwnd = autoUtils.getHandle(title)
             self.auto.hwnd.append(hwnd)
 
         if(self.boxRadioButton.isChecked() == True):
@@ -72,11 +71,12 @@ class autoTrain():
 
     def createThread(self,hwnd):
         th = thread_with_trace(target=self.doWork,args=(hwnd,))
+        th.setDaemon(True)
         self.threads.append(th)
 
     def doWork(self, hwnd):
-        p1 = Point(0,0)
-        p2 = Point(0,0)
+        p1 = Point(0, 0)
+        p2 = Point(0, 0)
         if (self.chatrieng == False):
             p1 = Point(159, 593)
             p2 = Point(157, 606)
@@ -88,21 +88,21 @@ class autoTrain():
             w = x1 - x
             h = y1 - y
             if (w != 1066 or h != 724):
-                AutoUtils.ResizeWindow(hwnd)
-            screen = imgProcess.CaptureWindow(hwnd)
+                autoUtils.ResizeWindow(hwnd)
+            screen = imgProcess.captureWindow(hwnd)
             checkFight = imgProcess.findImgPoint(self.sanxuat, screen)
             checkTshp = imgProcess.findImgPointandFixCoord(self.thiensu, screen)
             checkKetban = imgProcess.findImgPointandFixCoord(self.ketban, screen)
             if checkTshp != Point(0, 0):
-                AutoUtils.click(hwnd, checkTshp)
+                autoUtils.click(hwnd, checkTshp)
                 time.sleep(1)
             if checkKetban != Point(0, 0):
-                AutoUtils.click(hwnd, checkKetban)
+                autoUtils.click(hwnd, checkKetban)
                 time.sleep(1)
-            if checkFight != Point(0,0):
-                AutoUtils.click(hwnd,p1)
+            if checkFight != Point(0, 0):
+                autoUtils.click(hwnd, p1)
                 time.sleep(self.delay)
-                AutoUtils.click(hwnd,p2)
+                autoUtils.click(hwnd, p2)
             time.sleep(self.delay)
 if __name__ == '__main__':
     app = QApplication(sys.argv)

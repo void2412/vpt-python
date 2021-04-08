@@ -1,85 +1,86 @@
-from gui import autoquang
-import AutoUtils
+from gui import resetAuto
+import autoUtils
 import imgProcess
-import autoit
 import time
 import sys
 from PyQt5.QtWidgets import *
 from imgProcess import Point
-from AutoUtils import thread_with_trace
+from autoUtils import thread_with_trace
 
-class autoQuang(QMainWindow, autoquang.Ui_MainWindow):
+class autoQuang(QMainWindow, resetAuto.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.setWindowTitle('auto treo quang')
         self.textBoxList = [self.lineEdit1,self.lineEdit2,self.lineEdit3,self.lineEdit4,self.lineEdit5]
-        self.auto = treoQuang()
-        self.started = False
+        self.startBtnList = [self.startBtn1, self.startBtn2, self.startBtn3, self.startBtn4, self.startBtn5]
+        self.checkboxList = [self.checkBox, self.checkBox_2, self.checkBox_3, self.checkBox_4, self.checkBox_5]
+        for checkbox in self.checkboxList:
+            checkbox.setVisible(False)
+        self.autoList = [treoQuang(),treoQuang(),treoQuang(),treoQuang(),treoQuang()]
+        self.startStateList = [False,False,False,False,False]
         self.delayLine.setText('500')
-        self.startBtn.clicked.connect(self.startClicked)
+        self.initBtn()
 
-    def startClicked(self):
-        if self.started is False:
-            self.started = True
-            self.startBtn.setText('stop')
-            self.initData()
-            self.auto.start()
+    def initBtn(self):
+        i = 0
+        for button in self.startBtnList:
+            button.clicked.connect(lambda ch, index = i: self.start(index))
+            i = i + 1
+
+    def start(self, index):
+        if (self.startStateList[index] == False):
+            self.startStateList[index] = True
+            self.startBtnList[index].setText('stop')
+            title = self.textBoxList[index].text()
+            delay = int(self.delayLine.text()) * 0.001
+            hwnd = autoUtils.getHandle(title)
+            self.autoList[index].hwnd = hwnd
+            self.autoList[index].delay  = delay
+            self.autoList[index].start()
         else:
-            self.started = False
-            self.startBtn.setText('start')
-            self.auto.stop()
+            self.startStateList[index] = False
+            self.startBtnList[index].setText('start')
+            self.autoList[index].stop()
+            self.autoList[index] = treoQuang()
 
-    def initData(self):
-        self.auto.hwnd.clear()
-        self.auto.threads.clear()
-        self.auto.title.clear()
-        self.auto.delay = int(self.delayLine.text()) * 0.001
-        for title in self.textBoxList:
-            if (title.text().strip() != ""):
-                self.auto.title.append(title.text())
-        for title in self.auto.title:
-            hwnd = autoit.win_get_handle(title)
-            self.auto.hwnd.append(hwnd)
 
 class treoQuang():
     def __init__(self):
         self.sanxuat = imgProcess.getImg('./img/sanxuat.png')
         self.khong = imgProcess.getImg('./img/khong.png')
         self.thiensu = imgProcess.getImg('./img/ok.png')
-        self.threads = []
-        self.title = []
-        self.hwnd =[]
+        self.thread = None
+        self.hwnd =None
         self.delay = 0.5
     def start(self):
-        for hwnd in self.hwnd:
-            self.createThread(hwnd)
-        for thread in self.threads:
-            thread.start()
+        self.createThread(self.hwnd)
+        self.thread.start()
     def stop(self):
-        for thread in self.threads:
-            thread.kill()
+        self.thread.kill()
 
     def createThread(self,hwnd):
         th = thread_with_trace(target=self.doWork,args=(hwnd,))
-        self.threads.append(th)
+        th.setDaemon(True)
+        self.thread = th
 
     def doWork(self,hwnd):
         bossQuang = Point(397, 459)
-        mp = Point(152,49)
+        mp = Point(152, 49)
         while(True):
-            screen = imgProcess.CaptureWindow(hwnd)
+            screen = imgProcess.captureWindow(hwnd)
             checkFight = imgProcess.findImgPoint(self.sanxuat,screen)
             checkTshp = imgProcess.findImgPointandFixCoord(self.thiensu,screen)
             checkKetban = imgProcess.findImgPointandFixCoord(self.khong,screen)
-            if checkTshp != Point(0,0):
-                AutoUtils.click(hwnd,checkTshp)
+            if checkTshp != Point(0, 0):
+                autoUtils.click(hwnd, checkTshp)
                 time.sleep(self.delay)
-            if checkKetban != Point(0,0):
-                AutoUtils.click(hwnd,checkKetban)
+            if checkKetban != Point(0, 0):
+                autoUtils.click(hwnd, checkKetban)
                 time.sleep(self.delay)
-            if checkFight != Point(0,0):
-                AutoUtils.click(hwnd,mp)
-                AutoUtils.click(hwnd, bossQuang)
+            if checkFight != Point(0, 0):
+                autoUtils.click(hwnd, mp)
+                autoUtils.click(hwnd, bossQuang)
 
             time.sleep(self.delay)
 

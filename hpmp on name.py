@@ -1,12 +1,11 @@
 from gui import hpmp
-import AutoUtils
+import autoUtils
 import imgProcess
-import autoit
 import time
 import sys
 from PyQt5.QtWidgets import *
 from imgProcess import Point
-from AutoUtils import thread_with_trace
+from autoUtils import thread_with_trace
 
 class hpmp(QMainWindow,hpmp.Ui_MainWindow):
     def __init__(self):
@@ -40,7 +39,7 @@ class hpmp(QMainWindow,hpmp.Ui_MainWindow):
             if (title.text().strip() != ""):
                 self.auto.titles.append(title.text())
         for title in self.auto.titles:
-            hwnd = autoit.win_get_handle(title)
+            hwnd = autoUtils.getHandle(title)
             self.auto.hwnds.append(hwnd)
 
 class autoHpmp():
@@ -68,25 +67,25 @@ class autoHpmp():
         self.threads.append(th)
 
     def doWork(self,hwnd):
-        nguoi = Point(130,26)
-        pet = Point(115,86)
+        nguoi = Point(130, 26)
+        pet = Point(115, 86)
         while (True):
-            screen = imgProcess.CaptureWindow(hwnd)
+            screen = imgProcess.captureWindow(hwnd)
             checkFight = imgProcess.findImgPoint(self.sanxuat, screen)
             checkTshp = imgProcess.findImgPointandFixCoord(self.thiensu, screen)
             checkKetban = imgProcess.findImgPointandFixCoord(self.khong, screen)
-            if checkTshp != Point(0,0):
-                AutoUtils.click(hwnd,checkTshp)
+            if checkTshp != Point(0, 0):
+                autoUtils.click(hwnd, checkTshp)
                 time.sleep(self.delay)
-            if checkKetban != Point(0,0):
-                AutoUtils.click(hwnd,checkKetban)
+            if checkKetban != Point(0, 0):
+                autoUtils.click(hwnd, checkKetban)
                 time.sleep(self.delay)
-            if checkFight != Point(0,0):
+            if checkFight != Point(0, 0):
                 if(self.hoinguoi == True):
-                    AutoUtils.click(hwnd,nguoi)
+                    autoUtils.click(hwnd, nguoi)
                     time.sleep(self.delay)
                 if (self.hoipet == True):
-                    AutoUtils.click(hwnd,pet)
+                    autoUtils.click(hwnd, pet)
                     time.sleep(self.delay)
             time.sleep(self.delay)
 

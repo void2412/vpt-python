@@ -1,17 +1,23 @@
 import imgProcess
-import AutoUtils
+import autoUtils
 from PIL import Image
-
-import AutoUtils
-import autoit
 from imgProcess import Point
-hwnd = autoit.win_get_handle('chu quan')
+import autoUtils
 
+from imgProcess import Point
+hwnd = autoUtils.getHandle('test')
 
+needle = imgProcess.getImg('./img/trongcay/cayChin.png')
+screen = imgProcess.captureWindow(hwnd)
 
-im = imgProcess.CaptureWindow(hwnd)
+x = imgProcess.findImgPointandFixCoord(needle,screen)
 
-im1 = imgProcess.getImg('./img/thai_co/thangnhomtruong.png')
+if (Point(30,10) != Point.empty):
+    print('ok')
+else:
+    print('no')
 
-p = imgProcess.findImgPoint(im1,im)
-print(p)
+if (Point(0,0) == Point.empty):
+    print('ok')
+else:
+    print('no')

@@ -2,9 +2,9 @@ import sys
 from dataclasses import dataclass
 import openpyxl
 from PyQt5.QtWidgets import *
-import startvpt
 from gui import mainMenu
 from mapData import *
+import startvpt
 from openpyxl import Workbook
 from PyQt5.QtCore import *
 @dataclass

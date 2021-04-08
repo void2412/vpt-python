@@ -1,15 +1,14 @@
 from gui import autoTemplate
 import imgProcess
 import sys
-import autoit
+
 import time
 from PyQt5.QtWidgets import *
 from imgProcess import Point
-from AutoUtils import thread_with_trace
+from autoUtils import thread_with_trace
 import win32gui
-import AutoUtils
+import autoUtils
 import enum
-
 
 class menu_thai_co(QMainWindow, autoTemplate.Ui_MainWindow):
     def __init__(self):
@@ -23,6 +22,12 @@ class menu_thai_co(QMainWindow, autoTemplate.Ui_MainWindow):
         self.lineEdit5.setVisible(False)
         self.startBtn.clicked.connect(self.startBtnClicked)
         self.delayLine.setText('500')
+
+    def closeEvent(self, event):
+        if self.started == True:
+            self.auto.stop()
+        event.accept()
+
 
     def startBtnClicked(self):
         self.auto.titleList.clear()
@@ -57,6 +62,7 @@ class state(enum.Enum):
 class autoThaiCo:
     def __init__(self):
         self.thaico = imgProcess.getImg('./img/thai_co/thai_co.png')
+        self.thaico2 = imgProcess.getImg('./img/thai_co/thai_co2.png')
         self.thaicomathan = imgProcess.getImg('./img/thai_co/thaicomathan.png')
         self.thaicoselected = imgProcess.getImg('./img/thai_co/thaicomathanselected.png')
         self.qphuselected = imgProcess.getImg('./img/thai_co/qphuselected.png')
@@ -73,6 +79,7 @@ class autoThaiCo:
         self.thaicoQ = imgProcess.getImg('./img/thai_co/thaicoQ.png')
         self.thongtin = imgProcess.getImg('./img/thai_co/thongtin.png')
         self.thangnhomtruong = imgProcess.getImg('./img/thai_co/thangnhomtruong.png')
+        self.nhiemvuopen = imgProcess.getImg('./img/thai_co/nhiemvuopen.png')
         self.titleList = []
         self.handleList = []
         self.auto_thread = None
@@ -99,7 +106,7 @@ class autoThaiCo:
         th = thread_with_trace(target=self.doAuto, args=(self.handleList[0],self.handleList[1], self.delay))
         self.auto_thread = th
         self.auto_thread.start()
-        time.sleep(0.3)
+
 
     def stop(self):
         self.auto_thread.kill()
@@ -107,7 +114,7 @@ class autoThaiCo:
     def getHandle(self):
         self.handleList.clear()
         for item in self.titleList:
-            hwnd = autoit.win_get_handle(item)
+            hwnd = autoUtils.getHandle(item)
             self.handleList.append(hwnd)
 
     def doAuto(self, hwnd1, hwnd2, delay):
@@ -118,12 +125,12 @@ class autoThaiCo:
             h = y1 - y
 
             if w != 1066 or h != 724:
-                AutoUtils.ResizeWindow(hwnd1)
+                autoUtils.ResizeWindow(hwnd1)
             (a,b,a1,b1) = win32gui.GetWindowRect(hwnd2)
             w1 = a1 - a
             h1 = b1 - b
             if w1 != 1066 or h1 != 724:
-                AutoUtils.ResizeWindow(hwnd2)
+                autoUtils.ResizeWindow(hwnd2)
 
             if self.state == state.boQ1:
                 check = self.boQ1(hwnd1)
@@ -173,16 +180,16 @@ class autoThaiCo:
     def doiKey(self,hwndkey):
         res = False
         nhomPoint = Point(850, 649)
-        AutoUtils.click(hwndkey,nhomPoint)
-        time.sleep(0.3)
-        screen = imgProcess.CaptureWindow(hwndkey)
+        autoUtils.click(hwndkey, nhomPoint)
+        time.sleep(0.5)
+        screen = imgProcess.captureWindow(hwndkey)
         thangnhomPoint= imgProcess.findImgPointandFixCoord(self.thangnhomtruong,screen)
-        if thangnhomPoint!=Point(0,0):
-            secondKey = Point(thangnhomPoint.x + 12, thangnhomPoint.y-146)
-            AutoUtils.click(hwndkey,secondKey)
-            time.sleep(0.3)
-            AutoUtils.click(hwndkey,thangnhomPoint)
-            time.sleep(0.3)
+        if thangnhomPoint!=Point(0, 0):
+            secondKey = Point(thangnhomPoint.x + 12, thangnhomPoint.y - 146)
+            autoUtils.click(hwndkey, secondKey)
+            time.sleep(0.5)
+            autoUtils.click(hwndkey, thangnhomPoint)
+            time.sleep(0.5)
             res = True
         return res
 
@@ -200,120 +207,134 @@ class autoThaiCo:
         if self.clickTC is True:
             self.clickThaiCo(hwnd)
             time.sleep(0.5)
-        screen = imgProcess.CaptureWindow(hwnd)
+        screen = imgProcess.captureWindow(hwnd)
         self.p_roikhoi = imgProcess.findImgPointandFixCoord(self.roikhoi, screen)
         if self.p_roikhoi != Point(0, 0):
-            screen = imgProcess.CaptureWindow(hwnd)
-            self.p_nhiemvu = imgProcess.findImgPointandFixCoord(self.nhiemvu, screen, 0.6)
-            if self.p_nhiemvu != Point(0, 0):
-                self.p_quest = imgProcess.OffsetPoint(self.p_roikhoi, -68, -124)
-                AutoUtils.click(hwnd, self.p_quest)
+            self.p_quest = self.p_roikhoi - Point(68, 124)
+            autoUtils.click(hwnd, self.p_quest)
+            time.sleep(0.5)
             self.p_roikhoi = Point(0, 0)
             self.p_quest = Point(0, 0)
             self.clickTC = False
+        else:
+            self.clickTC = True
 
-        screen = imgProcess.CaptureWindow(hwnd)
+        screen = imgProcess.captureWindow(hwnd)
         self.p_npc = imgProcess.findImgPointandFixCoord(self.npc, screen, 0.7)
         if self.p_npc != Point(0, 0):
             self.p_nhanQ2 = imgProcess.findImgPointandFixCoord(self.nhanQ2, screen)
             if self.p_nhanQ2 != Point(0, 0):
-                AutoUtils.click(hwnd, self.p_nhanQ2)
+                autoUtils.click(hwnd, self.p_nhanQ2)
                 self.p_nhanQ = Point(0, 0)
             self.clickTC = False
 
-        screen = imgProcess.CaptureWindow(hwnd)
+        screen = imgProcess.captureWindow(hwnd)
         self.p_nhanQ = imgProcess.findImgPointandFixCoord(self.nhanQ, screen)
         if self.p_nhanQ != Point(0, 0):
-            AutoUtils.click(hwnd, self.p_nhanQ)
+            autoUtils.click(hwnd, self.p_nhanQ)
             self.p_nhanQ = Point(0, 0)
             res = True
-            self.clickTC = False
-        if res is True:
             self.clickTC = True
         return res
 
+    def checkNhiemVuBat(self,hwnd):
+        screen = imgProcess.captureWindow(hwnd)
+        p = imgProcess.findImgPoint(self.npc,screen,0.7)
+        if p != Point(0, 0):
+            return True
+        else:
+            return False
+
     def boQ1(self, hwnd):
         res = False
+        check = self.checkNhiemVuBat(hwnd)
         nv = Point(982, 649)
         checkFight = self.checkFight(hwnd)
         if checkFight is False:
-            AutoUtils.click(hwnd, nv)
-            time.sleep(0.5)
-            screen = imgProcess.CaptureWindow(hwnd)
+            if check is False:
+                autoUtils.click(hwnd, nv)
+                time.sleep(0.5)
+            screen = imgProcess.captureWindow(hwnd)
             self.p_npc = imgProcess.findImgPoint(self.npc, screen, 0.7)
             if self.p_npc != Point(0, 0):
                 self.p_thaicomathan = imgProcess.findImgPointandFixCoord(self.thaicomathan, screen, 0.7)
                 thaicoselected = imgProcess.findImgPointandFixCoord(self.thaicoselected, screen, 0.7)
                 if self.p_thaicomathan != Point(0, 0) or thaicoselected != Point(0, 0):
                     if self.p_thaicomathan != Point(0, 0):
-                        AutoUtils.click(hwnd, self.p_thaicomathan)
+                        autoUtils.click(hwnd, self.p_thaicomathan)
                     if thaicoselected != Point(0, 0):
-                        AutoUtils.click(hwnd, thaicoselected)
-                    time.sleep(0.3)
+                        autoUtils.click(hwnd, thaicoselected)
+                    time.sleep(0.5)
                     self.boQ(hwnd)
                     res = True
                 else:
                     self.p_qphu = imgProcess.findImgPointandFixCoord(self.qphu, screen)
                     self.p_qphuselected = imgProcess.findImgPointandFixCoord(self.qphuselected, screen)
                     if self.p_qphuselected != Point(0, 0):
-                        AutoUtils.click(hwnd, self.p_qphuselected)
+                        autoUtils.click(hwnd, self.p_qphuselected)
                     else:
                         if self.p_qphu != Point(0, 0):
-                            AutoUtils.click(hwnd, self.p_qphu)
+                            autoUtils.click(hwnd, self.p_qphu)
                         else:
-                            self.p_bo = imgProcess.findImgPointandFixCoord(self.bo, screen)
-                            if self.p_bo != Point(0, 0):
-                                tatnv = Point(self.p_bo.x + 379, self.p_bo.y - 337)
-                                AutoUtils.click(hwnd, tatnv)
-                                res = True
-                    time.sleep(0.3)
-                    screen = imgProcess.CaptureWindow(hwnd)
+                            autoUtils.click(hwnd, nv)
+                            res = True
+                    time.sleep(0.5)
+                    screen = imgProcess.captureWindow(hwnd)
                     self.p_thaicomathan = imgProcess.findImgPointandFixCoord(self.thaicomathan, screen, 0.7)
                     thaicoselected = imgProcess.findImgPointandFixCoord(self.thaicoselected, screen, 0.7)
                     if self.p_thaicomathan != Point(0, 0) or thaicoselected != Point(0, 0):
                         if self.p_thaicomathan != Point(0, 0):
-                            AutoUtils.click(hwnd, self.p_thaicomathan)
+                            autoUtils.click(hwnd, self.p_thaicomathan)
                         if thaicoselected != Point(0, 0):
-                            AutoUtils.click(hwnd, thaicoselected)
-                        time.sleep(0.3)
+                            autoUtils.click(hwnd, thaicoselected)
+                        time.sleep(0.5)
                         self.boQ(hwnd)
                         res = True
 
         return res
 
     def boQ(self,hwnd):
-        screen = imgProcess.CaptureWindow(hwnd)
+        screen = imgProcess.captureWindow(hwnd)
         thaicoselected = imgProcess.findImgPointandFixCoord(self.thaicoselected, screen, 0.7)
         while thaicoselected != Point(0, 0):
-            AutoUtils.click(hwnd, thaicoselected)
-            time.sleep(0.3)
+            autoUtils.click(hwnd, thaicoselected)
+            time.sleep(0.5)
             self.p_bo = imgProcess.findImgPointandFixCoord(self.bo, screen)
             if self.p_bo != Point(0, 0):
-                AutoUtils.click(hwnd, self.p_bo)
-                time.sleep(0.3)
-            screen = imgProcess.CaptureWindow(hwnd)
+                autoUtils.click(hwnd, self.p_bo)
+                time.sleep(0.5)
+            screen = imgProcess.captureWindow(hwnd)
             self.p_co = imgProcess.findImgPointandFixCoord(self.co, screen)
             if self.p_co != Point(0, 0):
-                AutoUtils.click(hwnd, self.p_co)
-                time.sleep(0.3)
-            screen = imgProcess.CaptureWindow(hwnd)
+                autoUtils.click(hwnd, self.p_co)
+                time.sleep(0.5)
+            screen = imgProcess.captureWindow(hwnd)
             thaicoselected = imgProcess.findImgPointandFixCoord(self.thaicoselected, screen, 0.7)
-            time.sleep(0.3)
-        tatnv = Point(self.p_bo.x + 379, self.p_bo.y - 337)
-        AutoUtils.click(hwnd, tatnv)
+            time.sleep(0.5)
+        screen = imgProcess.captureWindow(hwnd)
+        p = imgProcess.findImgPointandFixCoord(self.nhiemvuopen,screen)
+        if p != Point(0, 0):
+            tatnv = p + Point(218, -315)
+            autoUtils.click(hwnd, tatnv)
 
     def clickThaiCo(self,hwnd):
-        screen = imgProcess.CaptureWindow(hwnd)
-        p = imgProcess.findImgPointandFixCoord(self.thaico,screen,0.999)
-        if p != Point(0, 0):
-            AutoUtils.click(hwnd,p)
+        screen = imgProcess.captureWindow(hwnd)
+        p = imgProcess.findImgPointandFixCoord(self.thaico,screen)
+        p1 = imgProcess.findImgPointandFixCoord(self.thaico2,screen)
+        if p != Point(0, 0) or p1 != Point(0, 0):
+            if p!=Point(0, 0):
+                boss = p + Point(-197, 174)
+                autoUtils.click(hwnd, boss)
+            elif p1!=Point(0, 0):
+                boss = p1 + Point(-197, 174)
+                autoUtils.click(hwnd, boss)
             return True
         else:
             return False
         pass
 
     def checkFight(self, hwnd):
-        screen = imgProcess.CaptureWindow(hwnd)
+        screen = imgProcess.captureWindow(hwnd)
         p = imgProcess.findImgPoint(self.sanxuat, screen)
         if p != Point(0, 0):
             return False
@@ -321,7 +342,7 @@ class autoThaiCo:
             return True
 
     def checkFight2(self,hwnd):
-        screen = imgProcess.CaptureWindow(hwnd)
+        screen = imgProcess.captureWindow(hwnd)
         p = imgProcess.findImgPoint(self.thongtin, screen)
         if p != Point(0, 0):
             return True
