@@ -7,6 +7,7 @@ from mapData import *
 import startvpt
 from openpyxl import Workbook
 from PyQt5.QtCore import *
+import subprocess
 @dataclass
 class account:
     title: str
@@ -26,9 +27,15 @@ class mainMenuUI(QMainWindow, mainMenu.Ui_mainWindow):
         self.delBtn.clicked.connect(self.removeRow)
         self.accounts = []
         self.groups = []
+        self.baseaccount = []
         self.listWidget.itemClicked.connect(self.listItemClicked)
         self.tableWidget.setSortingEnabled(False)
         self.populateData()
+        self.autoKsBtn.clicked.connect(self.moAutoKs)
+        self.tabWidget.setCurrentIndex(0)
+
+    def moAutoKs(self):
+        subprocess.Popen('autoKs.exe')
 
     def populateData(self):
         self.accounts.clear()
@@ -56,35 +63,49 @@ class mainMenuUI(QMainWindow, mainMenu.Ui_mainWindow):
             acc = account(title=t.strip(),
                               link=l.strip(),
                               group=g.strip())
-            self.accounts.append(acc)
-        index = 0
-        for acc in self.accounts:
             self.groups.append(acc.group)
-            self.addAccountToTable(index, acc.title, acc.link, acc.group)
-            index = index + 1
+            self.accounts.append(acc)
+
 
         self.groups = list(dict.fromkeys(self.groups))
         for item in self.groups:
             if(item != ''):
                 self.listWidget.addItem(item)
         self.listWidget.addItem('No Group')
-        for row in range(self.tableWidget.rowCount()):
-            self.tableWidget.setRowHidden(row,True)
         self.listWidget.setCurrentRow(0)
-        self.showData()
+        index = 0
+        for acc in self.accounts:
+            self.addAccountToTable(index, acc.title, acc.link, acc.group)
+            index = index + 1
+        for x in range(self.tableWidget.rowCount()):
+            self.tableWidget.setRowHidden(x,True)
+        self.showData('All')
 
     def listItemClicked(self):
-        self.showData()
-    def showData(self):
-        groupIndex = self.listWidget.selectedItems()
-        groupText = groupIndex[0].text()
-        for row in range(self.tableWidget.rowCount()):
-            hidden = True
-            if groupText == 'All' or groupText == self.tableWidget.item(row,2).text():
-                hidden = False
-            if groupText == 'No Group' and self.tableWidget.item(row,2).text()=='':
-                hidden=False
-            self.tableWidget.setRowHidden(row,hidden)
+        x = self.listWidget.selectedItems()
+        groupName = x[0].text()
+        self.showData(groupName)
+
+    def showData(self,groupName):
+        for x in range(self.tableWidget.rowCount()):
+            if groupName == 'All':
+                self.tableWidget.setRowHidden(x,False)
+                pass
+            elif groupName == 'No Group':
+                if self.tableWidget.item(x,2).text() == '' or self.tableWidget.item(x,2).text() == None:
+                    self.tableWidget.setRowHidden(x,False)
+                else:
+                    self.tableWidget.setRowHidden(x,True)
+                pass
+            else:
+                if self.tableWidget.item(x,2).text() == groupName:
+                    self.tableWidget.setRowHidden(x, False)
+                else:
+                    self.tableWidget.setRowHidden(x, True)
+                pass
+
+
+
         pass
 
 
@@ -111,6 +132,7 @@ class mainMenuUI(QMainWindow, mainMenu.Ui_mainWindow):
             acc = account(title=t,link=l,group=g)
             self.accounts.append(acc)
 
+
         toSave = Workbook()
         sheet = toSave.active
         index = 2
@@ -135,6 +157,7 @@ class mainMenuUI(QMainWindow, mainMenu.Ui_mainWindow):
 
     def startBtnClicked(self):
         selected = self.tableWidget.selectionModel().selectedRows()
+
         for row in selected:
             title = self.tableWidget.item(row.row(), 0).text()
             link = self.tableWidget.item(row.row(), 1).text()

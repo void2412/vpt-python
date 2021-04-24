@@ -1,0 +1,1 @@
+pyinstaller --noconfirm -noconsole autoKs.spec

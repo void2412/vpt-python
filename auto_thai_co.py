@@ -132,42 +132,59 @@ class autoThaiCo:
             if w1 != 1066 or h1 != 724:
                 autoUtils.ResizeWindow(hwnd2)
 
+
             if self.state == state.boQ1:
+                self.fixThienSu(hwnd1)
+                self.fixGiaiTru(hwnd1)
                 check = self.boQ1(hwnd1)
                 if check is True:
                     self.state = state.nhanQ1
 
             if self.state == state.nhanQ1:
+                self.fixThienSu(hwnd1)
+                self.fixGiaiTru(hwnd1)
                 check = self.doNhanQ(hwnd1)
                 if check is True:
                     self.state = state.danhBoss1
 
             if self.state == state.danhBoss1:
+                self.fixThienSu(hwnd1)
+                self.fixGiaiTru(hwnd1)
                 check = self.danhboss(hwnd1)
                 if check is True:
                     self.state = state.doiKeysangacc2
 
             if self.state == state.doiKeysangacc2:
+                self.fixThienSu(hwnd1)
+                self.fixGiaiTru(hwnd1)
                 check = self.doiKey(hwnd1)
                 if check is True:
                     self.state = state.boQ2
 
             if self.state == state.boQ2:
+                self.fixThienSu(hwnd2)
+                self.fixGiaiTru(hwnd2)
                 check = self.boQ1(hwnd2)
                 if check is True:
                     self.state = state.nhanQ2
 
             if self.state == state.nhanQ2:
+                self.fixThienSu(hwnd2)
+                self.fixGiaiTru(hwnd2)
                 check = self.doNhanQ(hwnd2)
                 if check is True:
                     self.state = state.danhBoss2
 
             if self.state == state.danhBoss2:
+                self.fixThienSu(hwnd2)
+                self.fixGiaiTru(hwnd2)
                 check = self.danhboss(hwnd2)
                 if check is True:
                     self.state = state.doiKeysangacc1
 
             if self.state == state.doiKeysangacc1:
+                self.fixThienSu(hwnd2)
+                self.fixGiaiTru(hwnd2)
                 check = self.doiKey(hwnd2)
                 if check is True:
                     self.state = state.boQ1
@@ -176,6 +193,30 @@ class autoThaiCo:
 
             time.sleep(delay)
 
+
+    def fixThienSu(self,hwnd):
+        randomPoint = Point(986,46)
+        thiensu = imgProcess.getImg('./img/ok.png')
+        autoUtils.click(hwnd,randomPoint)
+        time.sleep(0.25)
+        screen = imgProcess.captureWindow(hwnd)
+        checkThiensu = imgProcess.findImgPointandFixCoord(thiensu,screen)
+        if checkThiensu != Point(0,0):
+            autoUtils.click(hwnd,checkThiensu)
+            time.sleep(0.5)
+
+
+
+    def fixGiaiTru(self,hwnd):
+        randomPoint = Point(986,46)
+        giaitru = imgProcess.getImg('./img/nhantraQ/co.png')
+        autoUtils.click(hwnd, randomPoint)
+        time.sleep(0.25)
+        screen = imgProcess.captureWindow(hwnd)
+        checkGiaitru = imgProcess.findImgPointandFixCoord(giaitru,screen)
+        if checkGiaitru != Point(0,0):
+            autoUtils.click(hwnd,checkGiaitru)
+            time.sleep(0.5)
 
     def doiKey(self,hwndkey):
         res = False
@@ -318,20 +359,7 @@ class autoThaiCo:
             autoUtils.click(hwnd, tatnv)
 
     def clickThaiCo(self,hwnd):
-        screen = imgProcess.captureWindow(hwnd)
-        p = imgProcess.findImgPointandFixCoord(self.thaico,screen)
-        p1 = imgProcess.findImgPointandFixCoord(self.thaico2,screen)
-        if p != Point(0, 0) or p1 != Point(0, 0):
-            if p!=Point(0, 0):
-                boss = p + Point(-197, 174)
-                autoUtils.click(hwnd, boss)
-            elif p1!=Point(0, 0):
-                boss = p1 + Point(-197, 174)
-                autoUtils.click(hwnd, boss)
-            return True
-        else:
-            return False
-        pass
+        autoUtils.click(hwnd,Point(161,605))
 
     def checkFight(self, hwnd):
         screen = imgProcess.captureWindow(hwnd)

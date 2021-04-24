@@ -65,7 +65,7 @@ class treoQuang():
         self.thread = th
 
     def doWork(self,hwnd):
-        bossQuang = Point(397, 459)
+        bossQuang = Point(161,605)
         mp = Point(152, 49)
         while(True):
             screen = imgProcess.captureWindow(hwnd)

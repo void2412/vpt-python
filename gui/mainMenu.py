@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_mainWindow(object):
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("mainWindow")
-        mainWindow.resize(1400, 606)
+        mainWindow.resize(924, 606)
         self.central_widget = QtWidgets.QWidget(mainWindow)
         self.central_widget.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -108,12 +108,18 @@ class Ui_mainWindow(object):
         self.tabWidget.addTab(self.mainWin, "")
         self.autoTab = QtWidgets.QWidget()
         self.autoTab.setObjectName("autoTab")
+        self.autoKsBtn = QtWidgets.QPushButton(self.autoTab)
+        self.autoKsBtn.setGeometry(QtCore.QRect(20, 30, 75, 23))
+        self.autoKsBtn.setObjectName("autoKsBtn")
+        self.pushButton_2 = QtWidgets.QPushButton(self.autoTab)
+        self.pushButton_2.setGeometry(QtCore.QRect(130, 30, 75, 23))
+        self.pushButton_2.setObjectName("pushButton_2")
         self.tabWidget.addTab(self.autoTab, "")
-        self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.tabWidget, 0, 1, 1, 1)
         mainWindow.setCentralWidget(self.central_widget)
 
         self.retranslateUi(mainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
 
     def retranslateUi(self, mainWindow):
@@ -131,4 +137,6 @@ class Ui_mainWindow(object):
         item = self.tableWidget.horizontalHeaderItem(2)
         item.setText(_translate("mainWindow", "group"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.mainWin), _translate("mainWindow", "Main Window"))
+        self.autoKsBtn.setText(_translate("mainWindow", "auto Ks"))
+        self.pushButton_2.setText(_translate("mainWindow", "PushButton"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.autoTab), _translate("mainWindow", "auto"))
