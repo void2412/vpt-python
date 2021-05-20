@@ -1,0 +1,1 @@
+pyinstaller -w --noconfirm -noconsole moveToTactical.spec

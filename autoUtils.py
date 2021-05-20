@@ -13,6 +13,9 @@ def changeWinTitle(hwnd,title):
 def getHandle(title):
     return win32gui.FindWindow(None, title)
 
+def getWinPos(hwnd):
+    return win32gui.GetWindowRect(hwnd)
+
 
 def click(hwnd, point):
     lParam = win32api.MAKELONG(point.x,point.y)

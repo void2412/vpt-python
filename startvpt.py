@@ -3,13 +3,19 @@ import autoUtils
 import time
 from imgProcess import *
 from autoUtils import *
+import os
 import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r'./Tesseract-OCR/tesseract.exe'
 def startGame(title,link):
 
-    subprocess.Popen('flashplayer.exe '+link)
-    time.sleep(0.5)
-    hwnd = autoUtils.getHandle('Adobe Flash Player 10')
+    subprocess.Popen("flashplayer.exe "+link,shell=False,creationflags= subprocess.DETACHED_PROCESS)
+    hwnd = 0
+    for i in range(20):
+        hwnd = autoUtils.getHandle('Adobe Flash Player 10')
+        if(hwnd != 0):
+            break
+        else:
+            time.sleep(0.5)
     autoUtils.changeWinTitle(hwnd,title)
 
 

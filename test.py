@@ -1,15 +1,23 @@
 import imgProcess
 import autoUtils
 from PIL import Image
-from imgProcess import Point
+from imgProcess import Point,rect
 import autoUtils
 
 from imgProcess import Point
-hwnd = autoUtils.getHandle('storage void')
+hwnd = autoUtils.getHandle('hsnam')
+hwnd1 = autoUtils.getHandle('hsnu')
+hwnd2 = autoUtils.getHandle('cb')
+hwnd3 = autoUtils.getHandle('dy')
+hwnd4 = autoUtils.getHandle('ts')
 
-needle = imgProcess.getImg('./img/dotim.png')
-screen = imgProcess.captureWindow(hwnd)
+print(autoUtils.getWinPos(hwnd))
+print(autoUtils.getWinPos(hwnd1))
+print(autoUtils.getWinPos(hwnd2))
+print(autoUtils.getWinPos(hwnd3))
+print(autoUtils.getWinPos(hwnd4))
 
-x = imgProcess.findImgPoint(needle,screen)
-print(x)
+
+
+
 

@@ -2,11 +2,10 @@
 
 block_cipher = None
 
-dataAdd=[('./img','img')]
-a = Analysis(['hpmp.py'],
+a = Analysis(['moveToTactical.py'],
              pathex=['E:\\programming_project\\VPT Project'],
              binaries=[],
-             datas=dataAdd,
+             datas=[],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -21,7 +20,7 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name='hpmp',
+          name='moveToTactical',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -34,4 +33,4 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='hoi hp mp')
+               name='moveToTactical')
