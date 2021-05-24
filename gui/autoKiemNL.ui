@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1047</width>
+    <height>562</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>VPT All In One</string>
+  </property>
+  <widget class="QWidget" name="central_widget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="sizeIncrement">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="1">
+     <widget class="QWidget" name="widget" native="true">
+      <property name="sizeIncrement">
+       <size>
+        <width>1</width>
+        <height>1</height>
+       </size>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetFixedSize</enum>
+       </property>
+       <item row="3" column="0">
+        <widget class="QTableWidget" name="tableWidget">
+         <column>
+          <property name="text">
+           <string>number</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>title</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>link</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>job</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>item collecting</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>status</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QGroupBox" name="groupBox">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>200</height>
+          </size>
+         </property>
+         <property name="title">
+          <string/>
+         </property>
+         <widget class="QComboBox" name="nguyenlieuComboBox">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>60</y>
+            <width>271</width>
+            <height>31</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>30</y>
+            <width>113</width>
+            <height>20</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_2">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>30</y>
+            <width>691</width>
+            <height>20</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QSpinBox" name="kenhBox">
+          <property name="geometry">
+           <rect>
+            <x>820</x>
+            <y>30</y>
+            <width>80</width>
+            <height>20</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QSpinBox" name="charlocBox">
+          <property name="geometry">
+           <rect>
+            <x>900</x>
+            <y>30</y>
+            <width>101</width>
+            <height>20</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>10</y>
+            <width>47</width>
+            <height>13</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Title</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_2">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>10</y>
+            <width>671</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Link</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::AutoText</enum>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>false</bool>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_3">
+          <property name="geometry">
+           <rect>
+            <x>820</x>
+            <y>10</y>
+            <width>47</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Kênh</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_4">
+          <property name="geometry">
+           <rect>
+            <x>900</x>
+            <y>10</y>
+            <width>101</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Character Location</string>
+          </property>
+         </widget>
+         <widget class="QWidget" name="horizontalLayoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>60</y>
+            <width>211</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QCheckBox" name="caucaCheckBox">
+             <property name="text">
+              <string>Câu Cá</string>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">radioGroup</string>
+             </attribute>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="trongcayCheckBox">
+             <property name="text">
+              <string>Trồng Cây</string>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">radioGroup</string>
+             </attribute>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="haiduocCheckBox">
+             <property name="text">
+              <string>Hái Dược</string>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">radioGroup</string>
+             </attribute>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="horizontalLayoutWidget_2">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>110</y>
+            <width>320</width>
+            <height>71</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QPushButton" name="pushButton">
+             <property name="text">
+              <string>Start</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="stopBtn">
+             <property name="text">
+              <string>Stop</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="importBtn">
+             <property name="text">
+              <string>import</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="exportBtn">
+             <property name="text">
+              <string>export</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="radioGroup"/>
+ </buttongroups>
+</ui>

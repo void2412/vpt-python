@@ -10,6 +10,9 @@ import win32api
 def changeWinTitle(hwnd,title):
     win32gui.SetWindowText(hwnd,title)
 
+def closeWindow(hwnd):
+    win32gui.PostMessage(hwnd,win32con.WM_CLOSE,0,0)
+
 def getHandle(title):
     return win32gui.FindWindow(None, title)
 
