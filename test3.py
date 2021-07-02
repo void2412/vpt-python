@@ -6,3 +6,6 @@ import pytesseract
 from autoUtils import *
 from imgProcess import *
 
+a = 'Kênh đáu giá'
+b = a.find('Kn')
+print(b)

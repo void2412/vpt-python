@@ -1,2 +1,7 @@
 /build/
 /dist/
+/venv/Include/
+/venv/Lib/
+/venv/Scripts/
+/venv/pyvenv.cfg
+/venv/
