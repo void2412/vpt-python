@@ -61,6 +61,7 @@ def getCharLoc(charLoc):
     return Point(x,y)
 
 class autoLogin:
+    #login vo game after open flash
     def __init__(self):
         self.batbuoc = getImg('./img/login/batbuoc.png')
         self.lienket = getImg('./img/login/lienketquahan.png')

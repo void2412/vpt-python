@@ -11,6 +11,7 @@ methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR',
 
 @dataclass
 class Point:
+    #most popular, use this for simplified Point
     x:int =0
     y:int =0
     def __add__(self, other):
@@ -26,6 +27,7 @@ class Point:
 
 @dataclass
 class rect:
+    #this usually is used with cropImg
     topLeft: Point = Point(0, 0)
     bottomRight: Point = Point(0, 0)
 
@@ -46,11 +48,13 @@ def convert2text(img):
 
 
 def cropImg(mainImg,region):
+    #crop image
     cropped = mainImg.crop((region.topLeft.x,region.topLeft.y,region.bottomRight.x,region.bottomRight.y))
     return cropped
 
 
 def captureWindow(hwnd):
+    #get the image of the window
     left, top, right, bot = win32gui.GetWindowRect(hwnd)
     width = right - left
     height = bot - top
@@ -76,6 +80,7 @@ def captureWindow(hwnd):
 
 
 def findImgPoint(needle, haystack, tolerance=0.9, method=methods[1]):
+    #find image and return the middle point of the image, return Point(0,0) if not found
     top_left = None
     middlePoint = None
     result = Point(0, 0)
@@ -99,6 +104,7 @@ def findImgPoint(needle, haystack, tolerance=0.9, method=methods[1]):
     pass
 
 def findImgPointandFixCoord(needle, haystack, tolerance=0.9, method=methods[1]):
+    #use this to fix Point found in findImgPoint to Point that is usable in click function
     unfixPoint = findImgPoint(needle,haystack,tolerance,method)
     fixedPoint = Point(0, 0)
     if(unfixPoint != Point(0, 0)):

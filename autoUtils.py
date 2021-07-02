@@ -7,6 +7,8 @@ import win32con
 import win32api
 import enum
 
+# SendMessage is synchronous, PostMessage is async
+
 
 class virtualKey(enum.Enum):
     key_0=0x30
@@ -44,7 +46,7 @@ class virtualKey(enum.Enum):
     key_W=0x57
     key_X=0x58
     key_Y=0x59
-    key_Z=0x5A
+    key_Z=0x5A #c #class #
 
 
 def changeWinTitle(hwnd,title):
@@ -54,7 +56,7 @@ def closeWindow(hwnd):
     win32gui.PostMessage(hwnd,win32con.WM_CLOSE,0,0)
 
 
-def getHandle(title):
+def getHandle(title): #return 0 if not found
     return win32gui.FindWindow(None, title)
 
 def getWinPos(hwnd):
@@ -65,33 +67,36 @@ def findAndClose(title):
     if hwnd != 0:
         closeWindow(hwnd)
 
-def click(hwnd, point):
+def click(hwnd, point): #most popular method, using PostMessage to get advantage of async
     lParam = win32api.MAKELONG(point.x,point.y)
     win32gui.PostMessage(hwnd,win32con.WM_LBUTTONDOWN,win32con.MK_LBUTTON,lParam)
     win32gui.PostMessage(hwnd,win32con.WM_LBUTTONUP,win32con.MK_LBUTTON,lParam)
     pass
 
-def clickusingSend(hwnd, point):
+def clickusingSend(hwnd, point): #same with click but use SendMessage instead of PostMessage
     lParam = win32api.MAKELONG(point.x, point.y)
     win32gui.SendMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
     win32gui.SendMessage(hwnd, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, lParam)
 
-def get_window_pid_by_title(title):
+def get_window_pid_by_title(title): #get pid to use with memory access
     hwnd = getHandle(title)
     threadid,pid = win32process.GetWindowThreadProcessId(hwnd)
     return pid
 
-def sendKey(hwnd,key):
+def sendKey(hwnd,key): #send key to a window, use virtual key class to choose key
     win32gui.PostMessage(hwnd,win32con.WM_KEYDOWN,key,0)
     pass
 
-def ResizeWindow(hwnd):
+def ResizeWindow(hwnd): #this can be used to make sure the window size stay the same (1 minor change can mess up find image Function)
     (x, y, x1, y1) = win32gui.GetWindowRect(hwnd)
     w = 1066
     h = 724
     win32gui.MoveWindow(hwnd,x,y,w,h,True)
 
 class thread_with_trace(threading.Thread):
+    #Stoppable thread, since most of program must run in a loop
+    #This thread can use kill method to stop and destroy the thread
+    #However, daemon thread should be use as well so when close program, all relevant threads close as well
     def __init__(self, *args, **keywords):
         threading.Thread.__init__(self, *args, **keywords)
         self.killed = False
