@@ -3,7 +3,6 @@ import autoUtils
 from time import sleep
 from imgProcess import *
 from autoUtils import *
-import os
 import datetime
 import pytz
 import win32con
