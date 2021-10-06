@@ -4,7 +4,7 @@ block_cipher = None
 
 dataadd = [('./account/link_account.xlsx','./account/'),('flashplayer.exe','.')]
 a = Analysis(['mainFile.py'],
-             pathex=['C:\\Users\\void\\Desktop\\VPT Project'],
+             pathex=[],
              binaries=[],
              datas=dataadd,
              hiddenimports=[],

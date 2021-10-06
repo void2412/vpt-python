@@ -88,7 +88,7 @@ class autoLogin:
         screen = captureWindow(hwnd)
         cropdaugia = cropImg(screen,self.kenhdaugiaRect)
         stringOCR = getStringOCR(cropdaugia)
-        if stringOCR.find('Kênh') is 0:
+        if stringOCR.find('Kênh') == 0:
             click(hwnd,getKenhLoc(kenh))
             sleep(0.5)
             return True
@@ -99,7 +99,7 @@ class autoLogin:
         screen = captureWindow(hwnd)
         cropdaugia = cropImg(screen, self.kenhdaugiaRect)
         stringOCR = getStringOCR(cropdaugia)
-        if stringOCR.find('Kênh') is 0:
+        if stringOCR.find('Kênh') == 0:
             return True
         else:
             return False
