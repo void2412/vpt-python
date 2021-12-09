@@ -71,8 +71,8 @@ class autoKs():
             muaPoint = Point(138,0)
             empty = Point(0,0)
             screen = captureWindow(hwnd)
-            checkKhong = findImgPointandFixCoord(self.khong,screen)
-            checkxacnhan = findImgPointandFixCoord(self.datvao, screen)
+            checkKhong = findImgPoint(self.khong,screen)
+            checkxacnhan = findImgPoint(self.datvao, screen)
             if checkxacnhan != empty or checkKhong != empty:
                 if checkKhong != empty:
                     clickPoint = checkKhong + coPoint
@@ -85,7 +85,7 @@ class autoKs():
                     autoUtils.click(hwnd,clickPoint)
                     time.sleep(delay)
             else:
-                checkmua = findImgPointandFixCoord(self.dotim,screen)
+                checkmua = findImgPoint(self.dotim,screen)
                 if checkmua != empty:
                     clickPoint = checkmua + muaPoint
                     autoUtils.click(hwnd,clickPoint)

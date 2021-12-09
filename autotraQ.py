@@ -98,16 +98,16 @@ class autoTraQ():
                 autoUtils.ResizeWindow(hwnd)
             screen = imgProcess.captureWindow(hwnd)
 
-            self.p_roikhoi = imgProcess.findImgPointandFixCoord(self.roikhoi,screen)
+            self.p_roikhoi = imgProcess.findImgPoint(self.roikhoi,screen)
             if (self.p_roikhoi != Point(0, 0)):
 
-                self.p_tonle = imgProcess.findImgPointandFixCoord(self.tonle,screen, 0.6)
+                self.p_tonle = imgProcess.findImgPoint(self.tonle,screen, 0.6)
                 if(self.p_tonle != Point(0, 0)):
                     self.p_quest = imgProcess.OffsetPoint(self.p_roikhoi, -44, -73)
                     autoUtils.click(hwnd, self.p_quest)
 
-                self.p_canve = imgProcess.findImgPointandFixCoord(self.canve,screen)
-                self.p_nhiemvu = imgProcess.findImgPointandFixCoord(self.nhiemvu,screen,0.6)
+                self.p_canve = imgProcess.findImgPoint(self.canve,screen)
+                self.p_nhiemvu = imgProcess.findImgPoint(self.nhiemvu,screen,0.6)
                 if(self.p_nhiemvu != Point(0, 0) or self.p_canve != Point(0, 0)):
                     self.p_quest = imgProcess.OffsetPoint(self.p_roikhoi, -68, -124)
                     autoUtils.click(hwnd, self.p_quest)
@@ -116,23 +116,23 @@ class autoTraQ():
                 self.p_tonle = Point(0, 0)
                 self.p_quest = Point(0, 0)
 
-            self.p_npc = imgProcess.findImgPointandFixCoord(self.npc,screen,0.7)
+            self.p_npc = imgProcess.findImgPoint(self.npc,screen,0.7)
             if(self.p_npc != Point(0, 0)):
-                self.p_nhanQ2 = imgProcess.findImgPointandFixCoord(self.nhanQ2,screen)
+                self.p_nhanQ2 = imgProcess.findImgPoint(self.nhanQ2,screen)
                 if (self.p_nhanQ2 != Point(0, 0)):
                     autoUtils.click(hwnd, self.p_nhanQ2)
                     time.sleep(0.2)
                     autoUtils.click(hwnd, randomLoc)
                     self.p_nhanQ = Point(0, 0)
                 else:
-                    self.p_nhanQ = imgProcess.findImgPointandFixCoord(self.nhanQ, screen)
+                    self.p_nhanQ = imgProcess.findImgPoint(self.nhanQ, screen)
                     if(self.p_nhanQ != Point(0, 0)):
                         autoUtils.click(hwnd, self.p_nhanQ)
                         time.sleep(0.2)
                         autoUtils.click(hwnd, randomLoc)
                         self.p_nhanQ = Point(0, 0)
 
-            self.p_traQ = imgProcess.findImgPointandFixCoord(self.traQ, screen)
+            self.p_traQ = imgProcess.findImgPoint(self.traQ, screen)
             if(self.p_traQ != Point(0, 0)):
                 autoUtils.click(hwnd, self.p_traQ)
                 time.sleep(0.2)

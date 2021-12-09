@@ -2,6 +2,7 @@ import pytesseract, cv2, numpy
 import win32con
 import win32gui
 import win32ui
+import numpy as np
 from PIL import Image
 from dataclasses import dataclass
 pytesseract.pytesseract.tesseract_cmd = r'./Tesseract-OCR/tesseract.exe'
@@ -54,28 +55,53 @@ def cropImg(mainImg,region):
 
 
 def captureWindow(hwnd):
+    #get size and offset
+    window_rect = win32gui.GetWindowRect(hwnd)
+    w = window_rect[2] - window_rect[0]
+    h = window_rect[3] - window_rect[1]
+
+    border_pixels = 8
+    titlebar_pixels = 30
+
+    w = w - (border_pixels * 2)
+    h = h - titlebar_pixels - border_pixels
+    cropped_x = border_pixels
+    cropped_y = titlebar_pixels
+
+    offset_x = window_rect[0] + cropped_x
+    offset_y = window_rect[1] + cropped_y
+
+
     #get the image of the window
-    left, top, right, bot = win32gui.GetWindowRect(hwnd)
-    width = right - left
-    height = bot - top
     wDC = win32gui.GetWindowDC(hwnd)
     dcObj = win32ui.CreateDCFromHandle(wDC)
     cDC = dcObj.CreateCompatibleDC()
     dataBitMap = win32ui.CreateBitmap()
-    dataBitMap.CreateCompatibleBitmap(dcObj, width, height)
+    dataBitMap.CreateCompatibleBitmap(dcObj, w, h)
     cDC.SelectObject(dataBitMap)
-    cDC.BitBlt((0, 0), (width, height), dcObj, (0, 0), win32con.SRCCOPY)
-    bmpInfo = dataBitMap.GetInfo()
-    bmpStr = dataBitMap.GetBitmapBits(True)
-    im = Image.frombuffer(
-        'RGB',
-        (bmpInfo['bmWidth'], bmpInfo['bmHeight']),
-        bmpStr, 'raw', 'BGRX', 0, 1)
+    cDC.BitBlt((0, 0), (w, h), dcObj, (cropped_x, cropped_y), win32con.SRCCOPY)
+    # convert the raw data into a format opencv can read
+    #dataBitMap.SaveBitmapFile(cDC, 'debug.bmp')
+    signedIntsArray = dataBitMap.GetBitmapBits(True)
+    img = np.fromstring(signedIntsArray, dtype='uint8')
+    img.shape = (h, w, 4)
+    # free resources
     dcObj.DeleteDC()
     cDC.DeleteDC()
     win32gui.ReleaseDC(hwnd, wDC)
     win32gui.DeleteObject(dataBitMap.GetHandle())
-    return im
+    # drop the alpha channel, or cv.matchTemplate() will throw an error like:
+    #   error: (-215:Assertion failed) (depth == CV_8U || depth == CV_32F) && type == _templ.type() 
+    #   && _img.dims() <= 2 in function 'cv::matchTemplate'
+    img = img[...,:3]
+    # make image C_CONTIGUOUS to avoid errors that look like:
+    #   File ... in draw_rectangles
+    #   TypeError: an integer is required (got type tuple)
+    # see the discussion here:
+    # https://github.com/opencv/opencv/issues/14866#issuecomment-580207109
+    img = np.ascontiguousarray(img)
+
+    return img
     pass
 
 
@@ -85,7 +111,7 @@ def findImgPoint(needle, haystack, tolerance=0.9, method=methods[1]):
     middlePoint = None
     result = Point(0, 0)
     toFind = cv2.cvtColor(needle, cv2.COLOR_BGR2GRAY)
-    findIn = cv2.cvtColor(numpy.array(haystack), cv2.COLOR_RGB2GRAY)
+    findIn = cv2.cvtColor(haystack, cv2.COLOR_BGR2GRAY)
     w, h = toFind.shape[::-1]
     matchMode = eval(method)
     res = cv2.matchTemplate(findIn, toFind, matchMode)
@@ -103,20 +129,7 @@ def findImgPoint(needle, haystack, tolerance=0.9, method=methods[1]):
     return result
     pass
 
-def findImgPointandFixCoord(needle, haystack, tolerance=0.9, method=methods[1]):
-    #use this to fix Point found in findImgPoint to Point that is usable in click function
-    unfixPoint = findImgPoint(needle,haystack,tolerance,method)
-    fixedPoint = Point(0, 0)
-    if(unfixPoint != Point(0, 0)):
-        fixedPoint = fixCoord(unfixPoint)
-    return fixedPoint
 
-def fixCoord(p):
-    res = Point(0, 0)
-    res.x = p.x - 8
-    res.y = p.y - 31
-    return res
-    pass
 
 def OffsetPoint(baseLoc, x, y):
     a = Point(x, y)

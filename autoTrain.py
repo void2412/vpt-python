@@ -91,8 +91,8 @@ class autoTrain():
                 autoUtils.ResizeWindow(hwnd)
             screen = imgProcess.captureWindow(hwnd)
             checkFight = imgProcess.findImgPoint(self.sanxuat, screen)
-            checkTshp = imgProcess.findImgPointandFixCoord(self.thiensu, screen)
-            checkKetban = imgProcess.findImgPointandFixCoord(self.ketban, screen)
+            checkTshp = imgProcess.findImgPoint(self.thiensu, screen)
+            checkKetban = imgProcess.findImgPoint(self.ketban, screen)
             if checkTshp != Point(0, 0):
                 autoUtils.click(hwnd, checkTshp)
                 time.sleep(1)

@@ -7,7 +7,7 @@ from autoUtils import thread_with_trace,click
 from gui import thuthapnl
 import sys
 from PyQt5.QtWidgets import *
-from imgProcess import getImg,Point,captureWindow,findImgPointandFixCoord
+from imgProcess import getImg,Point,captureWindow,findImgPoint
 class caytrong(enum.Enum):
     luamach = 'Lúa mạch (lv1)'
     luagao = 'Lúa gạo (lv1)'
@@ -141,7 +141,7 @@ class autoLogic():
     def fixThiensu(self,hwnd):
         empty = Point(0,0)
         screen = captureWindow(hwnd)
-        point = findImgPointandFixCoord(self.ok,screen)
+        point = findImgPoint(self.ok,screen)
         if point != empty:
             click(hwnd,point)
         sleep(0.5)
@@ -149,7 +149,7 @@ class autoLogic():
     def fixKetBan(self,hwnd):
         empty = Point(0, 0)
         screen = captureWindow(hwnd)
-        point = findImgPointandFixCoord(self.khong, screen)
+        point = findImgPoint(self.khong, screen)
         if point != empty:
             click(hwnd, point)
         sleep(0.5)
@@ -162,7 +162,7 @@ class autoLogic():
         click(hwnd,npc_code)
         sleep(0.5)
         screen = captureWindow(hwnd)
-        roikhoi = findImgPointandFixCoord(self.roikhoi,screen)
+        roikhoi = findImgPoint(self.roikhoi,screen)
         if roikhoi != empty:
             if self.daingay is True:
                 click(hwnd,roikhoi + long_term_tree)
@@ -171,7 +171,7 @@ class autoLogic():
                 click(hwnd,roikhoi+ short_term_tree)
                 sleep(0.5)
             screen = captureWindow(hwnd)
-            roikhoi = findImgPointandFixCoord(self.roikhoi,screen)
+            roikhoi = findImgPoint(self.roikhoi,screen)
             if roikhoi != empty:
                 self.choncay(hwnd,roikhoi,self.caytrong)
                 return True
@@ -229,7 +229,7 @@ class autoLogic():
         empty = Point(0, 0)
         needle=getImg('./img/trongcay/cayChin.png')
         screen = captureWindow(hwnd)
-        point = findImgPointandFixCoord(needle,screen)
+        point = findImgPoint(needle,screen)
         if point != empty:
             click(hwnd,point)
             sleep(0.5)
@@ -240,7 +240,7 @@ class autoLogic():
         empty = Point(0, 0)
         needle = getImg('./img/trongcay/crop.png')
         screen = captureWindow(hwnd)
-        point = findImgPointandFixCoord(needle, screen)
+        point = findImgPoint(needle, screen)
         if point != empty:
             click(hwnd,point)
             sleep(6)

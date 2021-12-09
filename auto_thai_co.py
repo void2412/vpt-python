@@ -200,7 +200,7 @@ class autoThaiCo:
         autoUtils.click(hwnd,randomPoint)
         time.sleep(0.25)
         screen = imgProcess.captureWindow(hwnd)
-        checkThiensu = imgProcess.findImgPointandFixCoord(thiensu,screen)
+        checkThiensu = imgProcess.findImgPoint(thiensu,screen)
         if checkThiensu != Point(0,0):
             autoUtils.click(hwnd,checkThiensu)
             time.sleep(0.5)
@@ -213,7 +213,7 @@ class autoThaiCo:
         autoUtils.click(hwnd, randomPoint)
         time.sleep(0.25)
         screen = imgProcess.captureWindow(hwnd)
-        checkGiaitru = imgProcess.findImgPointandFixCoord(giaitru,screen)
+        checkGiaitru = imgProcess.findImgPoint(giaitru,screen)
         if checkGiaitru != Point(0,0):
             autoUtils.click(hwnd,checkGiaitru)
             time.sleep(0.5)
@@ -224,7 +224,7 @@ class autoThaiCo:
         autoUtils.click(hwndkey, nhomPoint)
         time.sleep(0.5)
         screen = imgProcess.captureWindow(hwndkey)
-        thangnhomPoint= imgProcess.findImgPointandFixCoord(self.thangnhomtruong,screen)
+        thangnhomPoint= imgProcess.findImgPoint(self.thangnhomtruong,screen)
         if thangnhomPoint!=Point(0, 0):
             secondKey = Point(thangnhomPoint.x + 12, thangnhomPoint.y - 146)
             autoUtils.click(hwndkey, secondKey)
@@ -249,7 +249,7 @@ class autoThaiCo:
             self.clickThaiCo(hwnd)
             time.sleep(0.5)
         screen = imgProcess.captureWindow(hwnd)
-        self.p_roikhoi = imgProcess.findImgPointandFixCoord(self.roikhoi, screen)
+        self.p_roikhoi = imgProcess.findImgPoint(self.roikhoi, screen)
         if self.p_roikhoi != Point(0, 0):
             self.p_quest = self.p_roikhoi - Point(68, 124)
             autoUtils.click(hwnd, self.p_quest)
@@ -261,16 +261,16 @@ class autoThaiCo:
             self.clickTC = True
 
         screen = imgProcess.captureWindow(hwnd)
-        self.p_npc = imgProcess.findImgPointandFixCoord(self.npc, screen, 0.7)
+        self.p_npc = imgProcess.findImgPoint(self.npc, screen, 0.7)
         if self.p_npc != Point(0, 0):
-            self.p_nhanQ2 = imgProcess.findImgPointandFixCoord(self.nhanQ2, screen)
+            self.p_nhanQ2 = imgProcess.findImgPoint(self.nhanQ2, screen)
             if self.p_nhanQ2 != Point(0, 0):
                 autoUtils.click(hwnd, self.p_nhanQ2)
                 self.p_nhanQ = Point(0, 0)
             self.clickTC = False
 
         screen = imgProcess.captureWindow(hwnd)
-        self.p_nhanQ = imgProcess.findImgPointandFixCoord(self.nhanQ, screen)
+        self.p_nhanQ = imgProcess.findImgPoint(self.nhanQ, screen)
         if self.p_nhanQ != Point(0, 0):
             autoUtils.click(hwnd, self.p_nhanQ)
             self.p_nhanQ = Point(0, 0)
@@ -298,8 +298,8 @@ class autoThaiCo:
             screen = imgProcess.captureWindow(hwnd)
             self.p_npc = imgProcess.findImgPoint(self.npc, screen, 0.7)
             if self.p_npc != Point(0, 0):
-                self.p_thaicomathan = imgProcess.findImgPointandFixCoord(self.thaicomathan, screen, 0.7)
-                thaicoselected = imgProcess.findImgPointandFixCoord(self.thaicoselected, screen, 0.7)
+                self.p_thaicomathan = imgProcess.findImgPoint(self.thaicomathan, screen, 0.7)
+                thaicoselected = imgProcess.findImgPoint(self.thaicoselected, screen, 0.7)
                 if self.p_thaicomathan != Point(0, 0) or thaicoselected != Point(0, 0):
                     if self.p_thaicomathan != Point(0, 0):
                         autoUtils.click(hwnd, self.p_thaicomathan)
@@ -309,8 +309,8 @@ class autoThaiCo:
                     self.boQ(hwnd)
                     res = True
                 else:
-                    self.p_qphu = imgProcess.findImgPointandFixCoord(self.qphu, screen)
-                    self.p_qphuselected = imgProcess.findImgPointandFixCoord(self.qphuselected, screen)
+                    self.p_qphu = imgProcess.findImgPoint(self.qphu, screen)
+                    self.p_qphuselected = imgProcess.findImgPoint(self.qphuselected, screen)
                     if self.p_qphuselected != Point(0, 0):
                         autoUtils.click(hwnd, self.p_qphuselected)
                     else:
@@ -321,8 +321,8 @@ class autoThaiCo:
                             res = True
                     time.sleep(0.5)
                     screen = imgProcess.captureWindow(hwnd)
-                    self.p_thaicomathan = imgProcess.findImgPointandFixCoord(self.thaicomathan, screen, 0.7)
-                    thaicoselected = imgProcess.findImgPointandFixCoord(self.thaicoselected, screen, 0.7)
+                    self.p_thaicomathan = imgProcess.findImgPoint(self.thaicomathan, screen, 0.7)
+                    thaicoselected = imgProcess.findImgPoint(self.thaicoselected, screen, 0.7)
                     if self.p_thaicomathan != Point(0, 0) or thaicoselected != Point(0, 0):
                         if self.p_thaicomathan != Point(0, 0):
                             autoUtils.click(hwnd, self.p_thaicomathan)
@@ -336,24 +336,24 @@ class autoThaiCo:
 
     def boQ(self,hwnd):
         screen = imgProcess.captureWindow(hwnd)
-        thaicoselected = imgProcess.findImgPointandFixCoord(self.thaicoselected, screen, 0.7)
+        thaicoselected = imgProcess.findImgPoint(self.thaicoselected, screen, 0.7)
         while thaicoselected != Point(0, 0):
             autoUtils.click(hwnd, thaicoselected)
             time.sleep(0.5)
-            self.p_bo = imgProcess.findImgPointandFixCoord(self.bo, screen)
+            self.p_bo = imgProcess.findImgPoint(self.bo, screen)
             if self.p_bo != Point(0, 0):
                 autoUtils.click(hwnd, self.p_bo)
                 time.sleep(0.5)
             screen = imgProcess.captureWindow(hwnd)
-            self.p_co = imgProcess.findImgPointandFixCoord(self.co, screen)
+            self.p_co = imgProcess.findImgPoint(self.co, screen)
             if self.p_co != Point(0, 0):
                 autoUtils.click(hwnd, self.p_co)
                 time.sleep(0.5)
             screen = imgProcess.captureWindow(hwnd)
-            thaicoselected = imgProcess.findImgPointandFixCoord(self.thaicoselected, screen, 0.7)
+            thaicoselected = imgProcess.findImgPoint(self.thaicoselected, screen, 0.7)
             time.sleep(0.5)
         screen = imgProcess.captureWindow(hwnd)
-        p = imgProcess.findImgPointandFixCoord(self.nhiemvuopen,screen)
+        p = imgProcess.findImgPoint(self.nhiemvuopen,screen)
         if p != Point(0, 0):
             tatnv = p + Point(218, -315)
             autoUtils.click(hwnd, tatnv)
