@@ -8,11 +8,13 @@ import startvpt
 from openpyxl import Workbook
 from PyQt5.QtCore import *
 import subprocess
+import time
 
 class mainMenu(QMainWindow,autoKiemNL.Ui_mainWindow):
     def __init__(self):
         super(mainMenu, self).__init__()
         self.setupUi(self)
+
 
 
 
