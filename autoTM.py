@@ -86,6 +86,7 @@ class auto_TM():
         self.truma = getImg('./img/truma/truma.png')
         self.phuchoi = getImg('./img/truma/phuchoi.png')
         self.busy = getImg('./img/truma/busy.png')
+        self.sanxuat = imgProcess.getImg('./img/sanxuat.png')
         self.currentBoss = None
         x = 156
         self.phimaLoc = [
@@ -247,9 +248,9 @@ class auto_TM():
                         backmiddle = checkImg(self.hwnd, self.ttl)
                         if busy is True or backmiddle is True:
                             break
-                        
                         screen = captureWindow(self.hwnd)
                         roikhoiLoc = findImgPoint(self.roikhoi, screen)
+
                     if busy is True or backmiddle is True:
                         continue
                     fightLoc = OffsetPoint(roikhoiLoc, 0, -125)
@@ -330,7 +331,7 @@ class auto_TM():
                             return
 
                     #click Boss phi ma
-                    sleep(1)
+                    sleep(2)
                     while checkImg(self.hwnd, self.city) is True:
                         self.clickBoss()
                     
@@ -350,7 +351,7 @@ class auto_TM():
                             return
 
                     #click Boss cu ma
-                    sleep(1)
+                    sleep(2)
                     while checkImg(self.hwnd, self.ttl) is True:
                         self.clickBoss()
                     
@@ -369,19 +370,42 @@ class auto_TM():
                             return
 
                     #click Boss cu thu
-                    sleep(1)
+                    sleep(2)
                     while checkImg(self.hwnd, self.ttl) is True:
                         self.clickBoss()
 
+                
                 #wait for get in Fight
+                stuckWait = False
+                start = time.time()
                 while checkImg(self.hwnd, self.inFight) is False:
                     sleep(1)
-                #wait for fight Finnish
+                    stop = time.time()
+                    if (stop - start) > 30:
+                        if checkImg(self.hwnd, self.xongQ1) is True:
+                            break
+                        if checkImg(self.hwnd, self.xongQ2) is True:
+                            break
+                        #ve dht
+                        click(self.hwnd, self.traQLoc)
+                        #load map
+                        start = time.time()
+                        while checkImg(self.hwnd, self.loadmap) is True:
+                            sleep(2)
+                            Next = time.time()
+                            if (Next - start) > 60:
+                                print('error load map')
+                                return
+                        stuckWait = True
+
+                #wait for fight Finish
+                
                 while checkImg(self.hwnd, self.inFight) is True:
                     sleep(1)
-                
+                    
+                    
                 #Restore Hp/Mp
-                
+                sleep(1)
                 click(self.hwnd, Point(130, 26))
                 click(self.hwnd, Point(130, 26))
                 sleep(1)
@@ -389,7 +413,10 @@ class auto_TM():
                 click(self.hwnd,Point(117, 85))
                 
                 #set state
-                self.state = state.traQ
+                if stuckWait == False:
+                    self.state = state.traQ
+                else:
+                    self.checkCurrentBoss()
                 sleep(0.5)
 
 
