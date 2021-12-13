@@ -10,27 +10,12 @@ pytesseract.pytesseract.tesseract_cmd = r'./Tesseract-OCR/tesseract.exe'
 methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR',
            'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
 
-@dataclass
-class Point:
-    #most popular, use this for simplified Point
-    x:int =0
-    y:int =0
-    def __add__(self, other):
-        x = self.x + other.x
-        y = self.y + other.y
-        a = Point(x, y)
-        return a
-    def __sub__(self, other):
-        x = self.x - other.x
-        y = self.y - other.y
-        a = Point(x, y)
-        return a
 
 @dataclass
 class rect:
     #this usually is used with cropImg
-    topLeft: Point = Point(0, 0)
-    bottomRight: Point = Point(0, 0)
+    topLeft: (0, 0)
+    bottomRight: (0, 0)
 
 def getImg(path):
     img = cv2.imread(path)
@@ -47,10 +32,14 @@ def convert2text(img):
     return text
     pass
 
+def screenToclient(hwnd, Point):
+    (x, y) = win32gui.ScreenToClient(hwnd, (Point[0], Point[1]))
+    p = (x,y)
+    return p
 
 def cropImg(mainImg,region):
     #crop image
-    cropped = mainImg.crop((region.topLeft.x,region.topLeft.y,region.bottomRight.x,region.bottomRight.y))
+    cropped = mainImg.crop((region.topLeft[0],region.topLeft[1],region.bottomRight[0],region.bottomRight[1]))
     return cropped
 
 
@@ -109,7 +98,7 @@ def findImgPoint(needle, haystack, tolerance=0.9, method=methods[1]):
     #find image and return the middle point of the image, return Point(0,0) if not found
     top_left = None
     middlePoint = None
-    result = Point(0, 0)
+    result = (0, 0)
     toFind = cv2.cvtColor(needle, cv2.COLOR_BGR2GRAY)
     findIn = cv2.cvtColor(haystack, cv2.COLOR_BGR2GRAY)
     w, h = toFind.shape[::-1]
@@ -124,15 +113,13 @@ def findImgPoint(needle, haystack, tolerance=0.9, method=methods[1]):
             top_left = max_loc
     if top_left is not None:
         middlePoint = (top_left[0] + w / 2, top_left[1] + h / 2)
-        result.x = int(middlePoint[0])
-        result.y = int(middlePoint[1])
+        result = (int(middlePoint[0]), int(middlePoint[1]))
     return result
     pass
 
 
 
 def OffsetPoint(baseLoc, x, y):
-    a = Point(x, y)
-    a.x = baseLoc.x + x
-    a.y = baseLoc.y + y
+    a = (0,0)
+    a = (baseLoc[0] + x, baseLoc[1] + y)
     return a

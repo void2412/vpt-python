@@ -1,7 +1,8 @@
 import numpy as np
 import win32gui, win32ui, win32con
 from threading import Thread, Lock
-
+import time
+from autoUtils import *
 
 class WindowCapture:
 
@@ -28,9 +29,7 @@ class WindowCapture:
         if window_name is None:
             self.hwnd = win32gui.GetDesktopWindow()
         else:
-            self.hwnd = win32gui.FindWindow(None, window_name)
-            if not self.hwnd:
-                raise Exception('Window not found: {}'.format(window_name))
+            self.hwnd = getHandle(window_name)
 
         # get the window size
         window_rect = win32gui.GetWindowRect(self.hwnd)
@@ -110,6 +109,7 @@ class WindowCapture:
     def start(self):
         self.stopped = False
         t = Thread(target=self.run)
+        t.setDaemon(True)
         t.start()
 
     def stop(self):
@@ -124,3 +124,5 @@ class WindowCapture:
             self.lock.acquire()
             self.screenshot = screenshot
             self.lock.release()
+            time.sleep(0.2)
+            

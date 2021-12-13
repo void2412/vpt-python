@@ -46,7 +46,8 @@ class virtualKey(enum.Enum):
     key_W=0x57
     key_X=0x58
     key_Y=0x59
-    key_Z=0x5A #c #class #
+    key_Z=0x5A
+    key_ESC = 0x1B #c #class #
 
 
 def changeWinTitle(hwnd,title):
@@ -68,13 +69,13 @@ def findAndClose(title):
         closeWindow(hwnd)
 
 def click(hwnd, point): #most popular method, using PostMessage to get advantage of async
-    lParam = win32api.MAKELONG(point.x,point.y)
+    lParam = win32api.MAKELONG(point[0],point[1])
     win32gui.PostMessage(hwnd,win32con.WM_LBUTTONDOWN,win32con.MK_LBUTTON,lParam)
     win32gui.PostMessage(hwnd,win32con.WM_LBUTTONUP,win32con.MK_LBUTTON,lParam)
     pass
 
 def clickusingSend(hwnd, point): #same with click but use SendMessage instead of PostMessage
-    lParam = win32api.MAKELONG(point.x, point.y)
+    lParam = win32api.MAKELONG(point[0], point[1])
     win32gui.SendMessage(hwnd, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
     win32gui.SendMessage(hwnd, win32con.WM_LBUTTONUP, win32con.MK_LBUTTON, lParam)
 

@@ -4,7 +4,7 @@ import imgProcess
 import time
 import sys
 from PyQt5.QtWidgets import *
-from imgProcess import Point
+
 from autoUtils import thread_with_trace
 import win32gui
 
@@ -75,14 +75,14 @@ class autoTrain():
         self.threads.append(th)
 
     def doWork(self, hwnd):
-        p1 = Point(0, 0)
-        p2 = Point(0, 0)
+        p1 = (0, 0)
+        p2 = (0, 0)
         if (self.chatrieng == False):
-            p1 = Point(159, 593)
-            p2 = Point(157, 606)
+            p1 = (159, 593)
+            p2 = (157, 606)
         else:
-            p1 = Point(396, 459)
-            p2 = Point(428, 458)
+            p1 = (396, 459)
+            p2 = (428, 458)
         while (True):
             (x, y, x1, y1) = win32gui.GetWindowRect(hwnd)
             w = x1 - x
@@ -90,16 +90,16 @@ class autoTrain():
             if (w != 1066 or h != 724):
                 autoUtils.ResizeWindow(hwnd)
             screen = imgProcess.captureWindow(hwnd)
-            checkFight = imgProcess.findImgPoint(self.sanxuat, screen)
-            checkTshp = imgProcess.findImgPoint(self.thiensu, screen)
-            checkKetban = imgProcess.findImgPoint(self.ketban, screen)
-            if checkTshp != Point(0, 0):
+            checkFight = imgProcess.findImgPoint (self.sanxuat, screen)
+            checkTshp = imgProcess.findImgPoint (self.thiensu, screen)
+            checkKetban = imgProcess.findImgPoint (self.ketban, screen)
+            if checkTshp != (0, 0):
                 autoUtils.click(hwnd, checkTshp)
                 time.sleep(1)
-            if checkKetban != Point(0, 0):
+            if checkKetban != (0, 0):
                 autoUtils.click(hwnd, checkKetban)
                 time.sleep(1)
-            if checkFight != Point(0, 0):
+            if checkFight != (0, 0):
                 autoUtils.click(hwnd, p1)
                 time.sleep(self.delay)
                 autoUtils.click(hwnd, p2)

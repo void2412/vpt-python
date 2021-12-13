@@ -66,27 +66,27 @@ class autoKs():
 
             if w != 1066 or h != 724:
                 autoUtils.ResizeWindow(hwnd)
-            coPoint = Point(-69,0)
-            xacnhanPoint = Point(-67,0)
-            muaPoint = Point(138,0)
-            empty = Point(0,0)
+            coPoint = (-69,0)
+            xacnhanPoint = (-67,0)
+            muaPoint = (138,0)
+            empty = (0,0)
             screen = captureWindow(hwnd)
             checkKhong = findImgPoint(self.khong,screen)
             checkxacnhan = findImgPoint(self.datvao, screen)
-            if checkxacnhan != empty or checkKhong != empty:
-                if checkKhong != empty:
+            if checkxacnhan != (0,0) or checkKhong != (0,0):
+                if checkKhong != (0,0):
                     clickPoint = checkKhong + coPoint
                     autoUtils.click(hwnd,clickPoint)
                     time.sleep(delay)
 
 
-                if checkxacnhan != empty:
+                if checkxacnhan != (0,0):
                     clickPoint = checkxacnhan + xacnhanPoint
                     autoUtils.click(hwnd,clickPoint)
                     time.sleep(delay)
             else:
                 checkmua = findImgPoint(self.dotim,screen)
-                if checkmua != empty:
+                if checkmua != (0,0):
                     clickPoint = checkmua + muaPoint
                     autoUtils.click(hwnd,clickPoint)
                     time.sleep(delay)

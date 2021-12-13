@@ -46,7 +46,7 @@ def getKenhLoc(kenh):
         y=441
     if kenh == 8:
         y= 476
-    return Point(x,y)
+    return (x,y)
 
 def getCharLoc(charLoc):
     y = 468
@@ -57,7 +57,7 @@ def getCharLoc(charLoc):
         x = 500
     if charLoc == 3:
         x = 637
-    return Point(x,y)
+    return (x,y)
 
 class autoLogin:
     #login vo game after open flash
@@ -71,13 +71,13 @@ class autoLogin:
         self.hwnd = 0
         self.kenh = 7
         self.charLoc = 1
-        self.kenhdaugiaRect = rect(Point(452,497),Point(613,517))
-        self.bbLoc = Point(527,554)
+        self.kenhdaugiaRect = rect((452,497),(613,517))
+        self.bbLoc = (527,554)
 
     def batbuocProc(self,hwnd):
         screen = captureWindow(hwnd)
-        bbPoint = findImgPointandFixCoord(self.batbuoc,screen)
-        if bbPoint != Point(0,0):
+        bb = findImgPoint(self.batbuoc,screen)
+        if bb != (0,0):
             click(hwnd,self.bbLoc)
             sleep(0.5)
             return True
@@ -106,11 +106,11 @@ class autoLogin:
 
     def chonNhanVat(self,hwnd,charLoc):
         screen = captureWindow(hwnd)
-        nhanvatPoint = findImgPoint(self.nhanvat,screen)
-        if nhanvatPoint != Point(0,0):
+        nhanvat = findImgPoint(self.nhanvat,screen)
+        if nhanvat != (0,0):
             click(hwnd,getCharLoc(charLoc))
             sleep(0.5)
-            click(hwnd,Point(392,551))
+            click(hwnd,(392,551))
             return True
         else:
             return False
@@ -118,8 +118,8 @@ class autoLogin:
 
     def vaoGameProc(self,hwnd):
         screen = captureWindow(hwnd)
-        vaoGamePoint = findImgPoint(self.vaoGame,screen)
-        if vaoGamePoint != Point(0,0):
+        vaoGame = findImgPoint(self.vaoGame,screen)
+        if vaoGame != (0,0):
             sendKey(hwnd,win32con.VK_ESCAPE)
             sleep(0.5)
             return True
@@ -128,14 +128,14 @@ class autoLogin:
 
     def checkLagAndInvalidLink(self,hwnd):
         screen = captureWindow(hwnd)
-        check1 = findImgPointandFixCoord(self.lienket,screen)
-        check2 = findImgPointandFixCoord(self.serveroff,screen)
-        if check1 != Point(0,0) or check2 != Point(0,0):
-            if check1 != Point(0,0):
+        check1 = findImgPoint(self.lienket,screen)
+        check2 = findImgPoint(self.serveroff,screen)
+        if check1 != (0,0) or check2 != (0,0):
+            if check1 != (0,0):
                 click(hwnd,check1)
                 sleep(0.5)
                 return True
-            if check2 != Point(0,0):
+            if check2 != (0,0):
                 click(hwnd,check2)
                 sleep(0.5)
                 return True

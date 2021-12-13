@@ -4,7 +4,7 @@ import imgProcess
 import time
 import sys
 from PyQt5.QtWidgets import *
-from imgProcess import Point
+
 from autoUtils import thread_with_trace
 
 class autoQuang(QMainWindow, resetAuto.Ui_MainWindow):
@@ -65,20 +65,20 @@ class treoQuang():
         self.thread = th
 
     def doWork(self,hwnd):
-        bossQuang = Point(161,605)
-        mp = Point(152, 49)
+        bossQuang = (161,605)
+        mp = (152, 49)
         while(True):
             screen = imgProcess.captureWindow(hwnd)
             checkFight = imgProcess.findImgPoint(self.sanxuat,screen)
             checkTshp = imgProcess.findImgPoint(self.thiensu,screen)
             checkKetban = imgProcess.findImgPoint(self.khong,screen)
-            if checkTshp != Point(0, 0):
+            if checkTshp != (0, 0):
                 autoUtils.click(hwnd, checkTshp)
                 time.sleep(self.delay)
-            if checkKetban != Point(0, 0):
+            if checkKetban != (0, 0):
                 autoUtils.click(hwnd, checkKetban)
                 time.sleep(self.delay)
-            if checkFight != Point(0, 0):
+            if checkFight != (0, 0):
                 autoUtils.click(hwnd, mp)
                 autoUtils.click(hwnd, bossQuang)
 

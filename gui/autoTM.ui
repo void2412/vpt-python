@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>290</width>
-    <height>225</height>
+    <width>582</width>
+    <height>299</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>271</width>
-      <height>181</height>
+      <width>561</width>
+      <height>221</height>
      </rect>
     </property>
     <widget class="QLineEdit" name="lineEdit1">
@@ -173,12 +173,142 @@
       <rect>
        <x>20</x>
        <y>0</y>
-       <width>156</width>
+       <width>71</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
       <string>window title</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="getCodeBtn1">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>30</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>get code</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="getCodeBtn2">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>60</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>get code</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="getCodeBtn3">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>90</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>get code</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="getCodeBtn4">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>120</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>get code</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="getCodeBtn5">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>150</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>get code</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>30</y>
+       <width>211</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;1 - code phi ma&lt;/p&gt;&lt;p&gt;2 - code cự ma&lt;/p&gt;&lt;p&gt;3 - code cự thú&lt;/p&gt;&lt;p&gt;4 - code NPC theo thứ tự:&lt;/p&gt;&lt;p&gt;(quan quân nhu, NPC TTL, NPC của thành)&lt;/p&gt;&lt;p&gt;Enter - tắt chế độ lấy toạ độ&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="copyBtn">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>180</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>copy code từ</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>180</y>
+       <width>42</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>5</number>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="delayText">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>180</y>
+       <width>71</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>180</y>
+       <width>71</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>delay</string>
      </property>
     </widget>
    </widget>
@@ -188,7 +318,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>290</width>
+     <width>582</width>
      <height>21</height>
     </rect>
    </property>

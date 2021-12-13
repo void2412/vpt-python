@@ -7,7 +7,7 @@ from autoUtils import thread_with_trace,click
 from gui import thuthapnl
 import sys
 from PyQt5.QtWidgets import *
-from imgProcess import getImg,Point,captureWindow,findImgPoint
+from imgProcess import getImg,captureWindow,findImgPoint
 class caytrong(enum.Enum):
     luamach = 'Lúa mạch (lv1)'
     luagao = 'Lúa gạo (lv1)'
@@ -139,7 +139,7 @@ class autoLogic():
             sleep(self.delay)
 
     def fixThiensu(self,hwnd):
-        empty = Point(0,0)
+        empty = (0,0)
         screen = captureWindow(hwnd)
         point = findImgPoint(self.ok,screen)
         if point != empty:
@@ -147,7 +147,7 @@ class autoLogic():
         sleep(0.5)
 
     def fixKetBan(self,hwnd):
-        empty = Point(0, 0)
+        empty = (0, 0)
         screen = captureWindow(hwnd)
         point = findImgPoint(self.khong, screen)
         if point != empty:
@@ -155,10 +155,10 @@ class autoLogic():
         sleep(0.5)
 
     def trongcay(self,hwnd):
-        empty = Point(0,0)
-        short_term_tree = Point(-42,-124)
-        long_term_tree = Point(-42,-98)
-        npc_code = Point(161,605)
+        empty = (0,0)
+        short_term_tree = (-42,-124)
+        long_term_tree = (-42,-98)
+        npc_code = (161,605)
         click(hwnd,npc_code)
         sleep(0.5)
         screen = captureWindow(hwnd)
@@ -179,30 +179,30 @@ class autoLogic():
         return False
 
     def choncay(self,hwnd,base,tree):
-        lastPoint = base - Point(42,24)
-        moveDown = base + Point(96,-27)
-        moveUp = base + Point(96,-127)
+        last = base - (42,24)
+        moveDown = base + (96,-27)
+        moveUp = base + (96,-127)
         def getDown(num):
             for i in range(num):
                 click(hwnd,moveDown)
                 sleep(0.2)
             sleep(0.5)
-            click(hwnd,lastPoint)
+            click(hwnd,last)
 
         for i in range(10):
             click(hwnd,moveUp)
             sleep(0.2)
         sleep(0.3)
         if tree == caytrong.luamach:
-            click(hwnd,base-Point(42,124))
+            click(hwnd,base-(42,124))
         if tree == caytrong.luagao:
-            click(hwnd,base-Point(42,98))
+            click(hwnd,base-(42,98))
         if tree == caytrong.bap:
-            click(hwnd,base-Point(42,74))
+            click(hwnd,base-(42,74))
         if tree == caytrong.khoailang:
-            click(hwnd,base - Point(42,49))
+            click(hwnd,base - (42,49))
         if tree == caytrong.dauphong:
-            click(hwnd,lastPoint)
+            click(hwnd,last)
         if tree == caytrong.daunanh:
             getDown(1)
         if tree == caytrong.caithao:
@@ -226,7 +226,7 @@ class autoLogic():
 
 
     def checkCayChin(self,hwnd):
-        empty = Point(0, 0)
+        empty = (0, 0)
         needle=getImg('./img/trongcay/cayChin.png')
         screen = captureWindow(hwnd)
         point = findImgPoint(needle,screen)
@@ -237,7 +237,7 @@ class autoLogic():
         return False
 
     def thuhoach(self,hwnd):
-        empty = Point(0, 0)
+        empty = (0, 0)
         needle = getImg('./img/trongcay/crop.png')
         screen = captureWindow(hwnd)
         point = findImgPoint(needle, screen)
