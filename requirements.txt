@@ -1,9 +1,11 @@
 altgraph==0.17
-astroid
+astroid==2.5
 backcall==0.2.0
 click==7.1.2
 colorama==0.4.4
+debugpy==1.5.0
 decorator==4.4.2
+entrypoints==0.3
 et-xmlfile==1.0.1
 future==0.18.2
 importlib-metadata==3.4.0
@@ -15,10 +17,12 @@ jdcal==1.4.1
 jedi==0.18.0
 jupyter-client==6.1.11
 jupyter-core==4.7.1
-lazy-object-proxy
+lazy-object-proxy==1.6.0
+matplotlib-inline==0.1.3
 mccabe==0.6.1
 mem-edit==0.5
 MouseInfo==0.1.3
+nest-asyncio==1.5.1
 numpy==1.20.0
 opencv-python==4.5.1.48
 openpyxl==3.0.6
@@ -26,6 +30,7 @@ parso==0.8.1
 pefile==2019.4.18
 pickleshare==0.7.5
 Pillow==8.1.0
+platformdirs==2.4.0
 prompt-toolkit==3.0.16
 PyAutoGUI==0.9.52
 PyGetWindow==0.0.9
@@ -34,9 +39,12 @@ pyinstaller==4.2
 pyinstaller-hooks-contrib==2020.11
 pylint==2.6.0
 PyMsgBox==1.0.9
+pynput==1.7.5
+pyodbc==4.0.32
 pyperclip==1.8.1
 PyQt5==5.15.2
 pyqt5-plugins==5.15.2.2.0.1
+PyQt5-Qt5==5.15.2
 PyQt5-sip==12.8.1
 PyQt5-stubs==5.14.2.2
 pyqt5-tools==5.15.2.3.0.2
@@ -58,7 +66,6 @@ toml==0.10.2
 tornado==6.1
 traitlets==5.0.5
 typed-ast==1.4.2
-typing==3.7.4.3
 typing-extensions==3.7.4.3
 wcwidth==0.2.5
 wrapt==1.12.1
