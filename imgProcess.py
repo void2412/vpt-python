@@ -39,7 +39,7 @@ def screenToclient(hwnd, Point):
 
 def cropImg(mainImg,region):
     #crop image
-    cropped = mainImg.crop((region.topLeft[0],region.topLeft[1],region.bottomRight[0],region.bottomRight[1]))
+    cropped = mainImg[region.topLeft[1]:(region.bottomRight[1]+1), region.topLeft[0]:(region.bottomRight[0]+1)]
     return cropped
 
 

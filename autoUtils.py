@@ -6,6 +6,7 @@ import win32process
 import win32con
 import win32api
 import enum
+import time
 
 # SendMessage is synchronous, PostMessage is async
 
@@ -87,6 +88,16 @@ def get_window_pid_by_title(title): #get pid to use with memory access
 def sendKey(hwnd,key): #send key to a window, use virtual key class to choose key
     win32gui.PostMessage(hwnd,win32con.WM_KEYDOWN,key,0)
     pass
+
+def clickwithdelay(hwnd,point, delay = 0): #click with delay
+    lParam = win32api.MAKELONG(point[0],point[1])
+    win32gui.SendMessage(hwnd,win32con.WM_LBUTTONDOWN,win32con.MK_LBUTTON,lParam)
+    if delay != 0:
+        time.sleep(delay)
+    win32gui.SendMessage(hwnd,win32con.WM_LBUTTONUP,win32con.MK_LBUTTON,lParam)
+
+def sendKeyUp(hwnd,key): 
+    win32gui.PostMessage(hwnd,win32con.WM_KEYDOWN, key, 0)
 
 def ResizeWindow(hwnd): #this can be used to make sure the window size stay the same (1 minor change can mess up find image Function)
     (x, y, x1, y1) = win32gui.GetWindowRect(hwnd)

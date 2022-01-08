@@ -13,7 +13,8 @@ import enum
 from threading import Lock
 from pynput.mouse import Controller
 from wincap import *
-
+from pynput.keyboard import Key as k
+from pynput.keyboard import Controller as keycontrol
 listener = None
 tempLocphima =[]
 tempLoccuma = []
@@ -21,6 +22,9 @@ tempLoccuthu =[]
 tempLocnpc =[]
 wincapThread = [None for _ in range(5)]
 mouse = Controller()
+killed = [False for _ in range(5)]
+keyboardLock = Lock()
+keyboardEvent = keycontrol()
 class menu_TM(QMainWindow, g.Ui_MainWindow):
     def __init__(self):
         super(menu_TM, self).__init__()
@@ -36,6 +40,7 @@ class menu_TM(QMainWindow, g.Ui_MainWindow):
         self.cuthuLoc = [None for _ in range(5)]
         self.npcLoc = [None for _ in range(5)]
         self.checkLagThread = [None for _ in range(5)]
+        self.hpmpThread = [None for _ in range(5)]
         
         self.initBtn()
         self.initBtnCode()
@@ -86,7 +91,7 @@ class menu_TM(QMainWindow, g.Ui_MainWindow):
             global wincapThread
             wincapThread[index] = WindowCapture(title)
             wincapThread[index].start()
-            sleep(0.5)
+            sleep(0.6)
 
             self.createAutoObj(index, title, self.phimaLoc[index], self.cumaLoc[index],self.cuthuLoc[index], self.npcLoc[index], delay)
             self.checkLagThread[index] = checkLag(getHandle(title),index, self.autoPool[index],self.npcLoc[index])
@@ -199,6 +204,15 @@ class state (enum.Enum):
     timDanh = 2
     reset = 3
 
+def checkLoadMap(index):
+    loadmap = getImg('./img/truma/loadmap.png')
+    start = time.time()
+    while checkImg(index, loadmap) is True:
+        sleep(1)
+        Next = time.time()
+        if (Next - start) > 60:
+            print('error load map')
+            return
 
 def checkImg(index, needle, tolerance = 0.9):
     global wincapThread
@@ -223,7 +237,9 @@ class checkLag():
         self.inFight = getImg('./img/truma/inFight.png')
         self.thegioi1 = imgProcess.getImg('./img/truma/thegioi1.png')
         self.thegioi2 = imgProcess.getImg('./img/truma/thegioi2.png')
-        self.loadmap = getImg('./img/truma/loadmap.png')
+        
+        
+        self.trashcan = getImg('./img/trashcan.png')
         self.traQLoc = npc[0]
         self.currentLoc = None
         self.lastLoc = None
@@ -231,18 +247,22 @@ class checkLag():
         self.lock = Lock()
         self.index = index
         self.auto = autoObj
-
+        
+        self.hpmp = hpmp(self.hwnd, self.index, autoObj)
     def fixLag(self, hwnd):
+        global keyboardLock
+        global killed
         self.lock.acquire()
         lagState = self.state
         self.lock.release()
 
         if lagState == 'lag map':
-            self.auto.stop()
+            if self.auto.running == True:
+                self.auto.stop()
             sendKey(hwnd, win32con.VK_ESCAPE)
             sleep(1)
             click(hwnd, (919, 117))
-            sleep(0.5)
+            sleep(0.6)
             click(hwnd, (963, 46))
             sleep(1)
             #click the gioi
@@ -263,39 +283,87 @@ class checkLag():
             click(hwnd, (508,490))
             #check load map
             sleep(1)
-            start = time.time()
-            while checkImg(self.index, self.loadmap) is True:
-                sleep(1)
-                Next = time.time()
-                if (Next - start) > 60:
-                    print('error load map')
-                    return
+            checkLoadMap(self.index)
             
             #back to dht
             sleep(1)
             click(hwnd, self.traQLoc)
             #check load map
             sleep(3)
-            start = time.time()
-            while checkImg(self.index, self.loadmap) is True:
-                sleep(2)
-                Next = time.time()
-                if (Next - start) > 60:
-                    print('error load map')
-                    return
+            checkLoadMap(self.index)
             sleep(2)
-            self.auto.start()
+            if self.auto.running == False:
+                self.auto.start()
             self.state = 'normal'
+            return True
             pass
 
         if lagState == 'f5':
+            #stop auto
+            if self.auto.running == True:
+                self.auto.stop()
             pass
-
+        
+        if lagState == 'killed':
+            #stop auto
+            if self.auto.running == True:
+                self.auto.stop()
+            sleep(1)
+            sendKey(hwnd, win32con.VK_ESCAPE)
+            sleep(0.5)
+            click(hwnd,(986,46))
+            sleep(1)
+            #click tui do
+            click(self.hwnd, (760,658))
+            sleep(1)
+            screen = self.wincapThread.screenshot
+            trashcanCheck = findImgPoint(self.trashcan, screen)
+            if trashcanCheck != (0, 0):
+                #lay toa do cac cho can click
+                petStoragePoint = OffsetPoint(trashcanCheck,168, -374)
+                useItemPoint = OffsetPoint(trashcanCheck, -357, -436)
+                menhPoint = OffsetPoint(trashcanCheck,116,-190)
+                trungthanhPoint = OffsetPoint(trashcanCheck,154,-188)
+                repairPoint = OffsetPoint(trashcanCheck,79, -1)
+                #sua do
+                keyboardEvent.press(k.ctrl)
+                click(hwnd, repairPoint)
+                sleep(0.2)
+                keyboardEvent.release(k.ctrl)
+                sleep(1)
+                
+                #mo tui pet
+                click(hwnd, petStoragePoint)
+                sleep(1)
+                #sua trung thanh pet
+                click(hwnd, useItemPoint)
+                sleep(1)
+                clickwithdelay(hwnd, trungthanhPoint,0.2)
+                sleep(1)
+                #sua menh pet
+                click(hwnd, useItemPoint)
+                sleep(1)
+                clickwithdelay(hwnd,menhPoint, 0.2)
+                sleep(1)
+                sendKey(hwnd, win32con.VK_ESCAPE)
+                sleep(1)
+                #reset state and start auto
+                if self.auto.running == False:
+                    self.auto.start()
+                self.state = 'normal'
+                killed[self.index] = False
+                return True
+            else:
+                return False
         pass
+    
+    
+
 
     def worker(self):
+        global killed
         while True:
-            
+             
             self.getCurrentLoc()
 
             if self.currentLoc != self.lastLoc:
@@ -315,7 +383,7 @@ class checkLag():
                     else:
                         stop = time.time()
                         print(stop - start)
-                        if (stop - start) > 180:
+                        if (stop - start) > 120:
                             if self.currentLoc == 'city' or self.currentLoc == 'dht' or self.currentLoc == 'ttl':
                                 self.lock.acquire()
                                 self.state = 'lag map'
@@ -327,7 +395,19 @@ class checkLag():
                                 self.state = 'lag f5'
                                 self.lock.release()
                                 self.fixLag(self.hwnd)
-                            pass
+                            start = time.time()
+                    
+                    if killed[self.index] is True:
+                        self.lock.acquire()
+                        self.state = 'killed'
+                        self.lock.release()
+                        check = self.fixLag(self.hwnd)
+                        while check is False:
+                            sleep(1)
+                            check = self.fixLag(self.hwnd)
+                            if check is True:
+                                break
+                        break
                     
 
             sleep(1)
@@ -359,25 +439,67 @@ class checkLag():
         th.setDaemon(True)
         self.thread = th
         self.thread.start()
+        self.hpmp.start()
         pass
 
     def stop(self):
         self.thread.kill()
         self.thread = None
+        self.hpmp.stop()
         pass
 
 class hpmp():
-    def __init__(self,hwnd, index):
+    def __init__(self, hwnd, index, autoObj):
         global wincapThread
         self.wincapThread = wincapThread[index]
         self.hwnd = hwnd
         self.sanxuat = imgProcess.getImg('./img/sanxuat.png')
         self.thread = None
         self.index = index
+        self.auto = autoObj
+
+    def fixGiaiTru(self,hwnd):
+        random = (986,46)
+        giaitru = getImg('./img/nhantraQ/co.png')
+        click(hwnd, random)
+        sleep(0.25)
+        screen = self.wincapThread.screenshot
+        checkGiaitru = findImgPoint(giaitru,screen)
+        if checkGiaitru != (0,0):
+            click(hwnd,checkGiaitru)
+    
+    def fixKetBan(self,hwnd):
+        random = (986,46)
+        giaitru = getImg('./img/khong.png')
+        click(hwnd, random)
+        sleep(0.25)
+        screen = self.wincapThread.screenshot
+        checkGiaitru = findImgPoint(giaitru,screen)
+        if checkGiaitru != (0,0):
+            click(hwnd,checkGiaitru)
+
+    def fixThienSu(self,hwnd):
+        global killed
+        random = (986,46)
+        thiensu = getImg('./img/ok.png')
+        kill = getImg('./img/killed.png')
+        click(hwnd,random)
+        sleep(0.25)
+        screen = self.wincapThread.screenshot
+        checkkilled = findImgPoint(kill, screen)
+        checkThiensu = findImgPoint(thiensu,screen)
+        if checkkilled != (0, 0):
+            killed[self.index] = True
+            click(hwnd, checkkilled)
+            self.auto.stop()
+            pass
+        elif checkThiensu != (0,0):
+            click(hwnd,checkThiensu)
 
     def worker(self):
         while True:
-            
+            self.fixThienSu(self.hwnd)
+            self.fixKetBan(self.hwnd) 
             if checkImg(self.index, self.sanxuat) is True:
                 
                 click(self.hwnd, (130, 26))
@@ -415,7 +537,7 @@ class auto_TM():
         self.menu2 = getImg('./img/truma/nhiemvu2.png')
         self.xongQ1 = getImg('./img/truma/xongQ.png')
         self.xongQ2 = getImg('./img/truma/xongQ2.png')
-        self.loadmap = getImg('./img/truma/loadmap.png')
+        self.running = False
         self.city = getImg('./img/truma/city.png')
         self.ttl = getImg('./img/truma/ttl.png')
         self.roikhoi = getImg('./img/roikhoi.png')
@@ -430,6 +552,7 @@ class auto_TM():
         
         self.qqnTalk = imgProcess.getImg('./img/truma/qqnTalk.png')
         self.dht = imgProcess.getImg('./img/truma/dhttext.png')
+        self.phongan = imgProcess.getImg('./img/truma/phongan.png')
         self.currentBoss = None
         self.delay = delay
         self.phimaLoc = phima
@@ -446,170 +569,250 @@ class auto_TM():
         self.checkCurrentBoss()
 
         
-        #lag stuff
         
-        #hp mp stuff
-        self.hpmp = hpmp(self.hwnd, index)
     
-    def fixThienSu(self,hwnd):
-        random = (986,46)
-        thiensu = getImg('./img/ok.png')
-        click(hwnd,random)
-        sleep(0.25)
-        screen = self.wincapThread.screenshot
-        checkThiensu = findImgPoint(thiensu,screen)
-        if checkThiensu != (0,0):
-            click(hwnd,checkThiensu)
     
-    def fixGiaiTru(self,hwnd):
-        random = (986,46)
-        giaitru = getImg('./img/nhantraQ/co.png')
-        click(hwnd, random)
-        sleep(0.25)
-        screen = self.wincapThread.screenshot
-        checkGiaitru = findImgPoint(giaitru,screen)
-        if checkGiaitru != (0,0):
-            click(hwnd,checkGiaitru)
     
-    def fixKetBan(self,hwnd):
-        random = (986,46)
-        giaitru = getImg('./img/khong.png')
-        click(hwnd, random)
-        sleep(0.25)
-        screen = self.wincapThread.screenshot
-        checkGiaitru = findImgPoint(giaitru,screen)
-        if checkGiaitru != (0,0):
-            click(hwnd,checkGiaitru)
+    
+    
 
 
     def checkCurrentBoss(self):
+        checkphongan = checkImg(self.index, self.phongan, 0.8)
+        checkphima = checkImg(self.index, self.phima, 0.8)
+        
+        checkxongq1 = checkImg(self.index, self.xongQ1, 0.8)
+        checkxongq2 = checkImg(self.index, self.xongQ2, 0.8)
 
-        check1 = checkImg(self.index, self.phima, 0.8)
-        check2 = checkImg(self.index, self.cuma, 0.8)
-        check3 = checkImg(self.index, self.cuthu, 0.8)
-        check4 = checkImg(self.index, self.xongQ1, 0.8)
-        check5 = checkImg(self.index, self.xongQ2, 0.8)
-
-        if check1 is True:
+        if checkxongq1 is True or checkxongq2 is True:
+            self.state = state.traQ
+        elif checkphima is True and checkxongq1 is False and checkxongq2 is False:
             self.currentBoss = 'phi ma'
             self.state = state.timDanh
-        if check2 is True:
-            self.currentBoss = 'cu ma'
-            self.state = state.timDanh
-        if check3 is True:
-            self.currentBoss = 'cu thu'
-            self.state = state.timDanh
-        if check4 is True or check5 is True:
-            self.state = state.traQ
-
-        if check1 is False and check2 is False and check3 is False and check4 is False and check5 is False:
+        elif checkphongan is True:
+            click(self.hwnd, checkphongan)
+            sleep(1)
+            checkcuma = checkImg(self.index, self.cuma, 0.8)
+            checkcuthu = checkImg(self.index, self.cuthu, 0.8)
+            if checkcuma is True:
+                self.currentBoss = 'cu ma'
+                self.state = state.timDanh
+            elif checkcuthu is True:
+                self.currentBoss = 'cu thu'
+                self.state = state.timDanh
+        elif checkphongan is False and checkphima is False:
             self.state = state.reset
 
         
     def clickBoss(self):
+        fightstarted = False
         if self.currentBoss == 'phi ma':
-            for i in range(5):
-                click(self.hwnd, self.phimaLoc[i])
-                sleep(0.5)
-                
-                if checkImg(self.index, self.city) is False:
-                    sleep(0.5)
-                    busy = False
-                    backmiddle = False
-                    screen = self.wincapThread.screenshot
-                    roikhoiLoc = findImgPoint(self.roikhoi, screen)
-                    bossMenu = findImgPoint(self.bosstext, screen)
-                    while roikhoiLoc == (0,0) or bossMenu == (0,0):
-                        
-                        click(self.hwnd, self.phimaLoc[i])
-                        sleep(0.6)
-                        busy = checkImg(self.index, self.busy)
-                        backmiddle = checkImg(self.index, self.city)
-                        if busy is True or backmiddle is True:
-                            break
-                        
-                        screen = self.wincapThread.screenshot
-                        roikhoiLoc = findImgPoint(self.roikhoi, screen)
-                        bossMenu = findImgPoint(self.bosstext, screen)
-
-                    if busy is True or backmiddle is True:
-                        continue
-                    fightLoc = OffsetPoint(roikhoiLoc, 0, -125)
-                    click(self.hwnd, fightLoc)
-                    
+            for i in range(len(self.phimaLoc)):
+                if fightstarted == True:
                     break
+                click(self.hwnd, self.phimaLoc[i])
+                sleep(1)
+                fightstarted = False
+                if checkImg(self.index, self.city) is False:
+                    while fightstarted is False:                    
+                        sleep(1)
+                        if fightstarted is False:
+                            busy = False
+                            backmiddle = False
+                            screen = self.wincapThread.screenshot
+                            roikhoiLoc = findImgPoint(self.roikhoi, screen)
+                            bossMenu = findImgPoint(self.bosstext, screen)
+                            while roikhoiLoc == (0,0) or bossMenu == (0,0):
+                                if roikhoiLoc != (0,0) and bossMenu == (0,0):
+                                    click(self.hwnd, roikhoiLoc)
+                                    sleep(1)
+                                click(self.hwnd, self.phimaLoc[i])
+                                sleep(1)
+                                busy = checkImg(self.index, self.busy)
+                                backmiddle = checkImg(self.index, self.city)
+                                if busy is True or backmiddle is True:
+                                    break
+                                
+                                screen = self.wincapThread.screenshot
+                                roikhoiLoc = findImgPoint(self.roikhoi, screen)
+                                bossMenu = findImgPoint(self.bosstext, screen)
+
+                            if busy is True or backmiddle is True:
+                                break
+                            fightLoc = OffsetPoint(roikhoiLoc, 0, -125)
+                            click(self.hwnd, fightLoc)
+                            sleep(1)
+                        #wait for get in Fight
+                        start = time.time()
+                        self.checkCurrentBoss()
+                        while checkImg(self.index, self.inFight) is False and self.state != state.traQ:
+                            sleep(1)
+                            stop = time.time()
+                            self.checkCurrentBoss()
+                            if self.state == state.traQ:
+                                fightstarted = True
+                                break
+                            if checkImg(self.index, self.inFight) is True:
+                                fightstarted = True
+                                break
+                            if (stop-start) > 10:
+                                break
+                        #wait for fight finish
+                        while checkImg(self.index, self.inFight) is True:
+                            sleep(0.6)
+                        if checkImg(self.index, self.inFight) is False:
+                            fightstarted = True
+                            break
+
                 else:
                     continue
+
+                if fightstarted is True:
+                    break
         
         if self.currentBoss == 'cu ma':
-            for i in range(5):
-                click(self.hwnd, self.cumaLoc[i])
-                sleep(0.5)
-                if checkImg(self.index, self.ttl) is False:
-                    sleep(0.5)
-                    busy = False
-                    backmiddle = False
-                    screen = self.wincapThread.screenshot
-                    roikhoiLoc = findImgPoint(self.roikhoi, screen)
-                    bossMenu = findImgPoint(self.bosstext, screen)
-                    while roikhoiLoc == (0,0) or bossMenu == (0,0):
-                        
-                        click(self.hwnd, self.cumaLoc[i])
-                        sleep(0.6)
-                        busy = checkImg(self.index, self.busy)
-                        backmiddle = checkImg(self.index, self.ttl)
-                        if busy is True or backmiddle is True:
-                            break
-                        
-                        screen = self.wincapThread.screenshot
-                        roikhoiLoc = findImgPoint(self.roikhoi, screen)
-                        bossMenu = findImgPoint(self.bosstext, screen)
-
-                    if busy is True or backmiddle is True:
-                        continue
-                    fightLoc = OffsetPoint(roikhoiLoc, 0, -125)
-                    click(self.hwnd, fightLoc)
-                    
+            for i in range(len(self.cumaLoc)):
+                if fightstarted == True:
                     break
+                click(self.hwnd, self.cumaLoc[i])
+                sleep(1)
+                fightstarted = False
+                if checkImg(self.index, self.ttl) is False:
+                    while fightstarted is False:                    
+                        sleep(1)
+                        if fightstarted is False:
+                            busy = False
+                            backmiddle = False
+                            screen = self.wincapThread.screenshot
+                            roikhoiLoc = findImgPoint(self.roikhoi, screen)
+                            bossMenu = findImgPoint(self.bosstext, screen)
+                            while roikhoiLoc == (0,0) or bossMenu == (0,0):
+                                if roikhoiLoc != (0,0) and bossMenu == (0,0):
+                                    click(self.hwnd, roikhoiLoc)
+                                    sleep(1)
+                                click(self.hwnd, self.cumaLoc[i])
+                                sleep(1)
+                                busy = checkImg(self.index, self.busy)
+                                backmiddle = checkImg(self.index, self.ttl)
+                                if busy is True or backmiddle is True:
+                                    break
+                                
+                                screen = self.wincapThread.screenshot
+                                roikhoiLoc = findImgPoint(self.roikhoi, screen)
+                                bossMenu = findImgPoint(self.bosstext, screen)
+
+                            if busy is True or backmiddle is True:
+                                break
+                            fightLoc = OffsetPoint(roikhoiLoc, 0, -125)
+                            click(self.hwnd, fightLoc)
+                            sleep(1)
+                        
+                        #wait for get in Fight
+                        start = time.time()
+                        self.checkCurrentBoss()
+                        while checkImg(self.index, self.inFight) is False and self.state != state.traQ:
+                            sleep(1)
+                            stop = time.time()
+                            self.checkCurrentBoss()
+                            if self.state == state.traQ:
+                                fightstarted = True
+                                break
+                            if checkImg(self.index, self.inFight) is True:
+                                fightstarted = True
+                                break
+                            if (stop-start) > 10:
+                                break
+                        #wait for fight finish
+                        while checkImg(self.index, self.inFight) is True:
+                            sleep(0.6)
+                        if checkImg(self.index, self.inFight) is False:
+                            fightstarted = True
+                            break
+                    
                 else:
                     continue
+
+                if fightstarted is True:
+                    break
             pass
 
         if self.currentBoss == 'cu thu':
-            for i in range(5):
-                click(self.hwnd, self.cuthuLoc[i])
-                sleep(0.5)
-                if checkImg(self.index, self.ttl) is False:
-                    sleep(0.6)
-                    busy = False
-                    backmiddle = False
-                    screen = self.wincapThread.screenshot
-                    roikhoiLoc = findImgPoint(self.roikhoi, screen)
-                    bossMenu = findImgPoint(self.bosstext, screen)
-                    while roikhoiLoc == (0,0) or bossMenu == (0,0):
-                        
-                        click(self.hwnd, self.cuthuLoc[i])
-                        sleep(0.5)
-                        busy = checkImg(self.index, self.busy)
-                        backmiddle = checkImg(self.index, self.ttl)
-                        if busy is True or backmiddle is True:
-                            break
-                        screen = self.wincapThread.screenshot
-                        roikhoiLoc = findImgPoint(self.roikhoi, screen)
-                        bossMenu = findImgPoint(self.bosstext, screen)
-
-                    if busy is True or backmiddle is True:
-                        continue
-                    fightLoc = OffsetPoint(roikhoiLoc, 0, -125)
-                    click(self.hwnd, fightLoc)
-                    
+            for i in range(len(self.cuthuLoc)):
+                if fightstarted == True:
                     break
+                click(self.hwnd, self.cuthuLoc[i])
+                sleep(1)
+                fightstarted = False
+                if checkImg(self.index, self.ttl) is False:
+                    while fightstarted is False:
+                        sleep(1)
+                        if fightstarted is False:
+                            busy = False
+                            backmiddle = False
+                            screen = self.wincapThread.screenshot
+                            roikhoiLoc = findImgPoint(self.roikhoi, screen)
+                            bossMenu = findImgPoint(self.bosstext, screen)
+                            while roikhoiLoc == (0,0) or bossMenu == (0,0):
+                                if roikhoiLoc != (0,0) and bossMenu == (0,0):
+                                    click(self.hwnd, roikhoiLoc)
+                                    sleep(1)
+                                click(self.hwnd, self.cuthuLoc[i])
+                                sleep(1)
+                                busy = checkImg(self.index, self.busy)
+                                backmiddle = checkImg(self.index, self.ttl)
+                                if busy is True or backmiddle is True:
+                                    break
+                                screen = self.wincapThread.screenshot
+                                roikhoiLoc = findImgPoint(self.roikhoi, screen)
+                                bossMenu = findImgPoint(self.bosstext, screen)
+
+                            if busy is True or backmiddle is True:
+                                break
+                            fightLoc = OffsetPoint(roikhoiLoc, 0, -125)
+                            click(self.hwnd, fightLoc)
+                            sleep(1)
+                        #wait for get in Fight
+                        start = time.time()
+                        self.checkCurrentBoss()
+                        while checkImg(self.index, self.inFight) is False and self.state != state.traQ:
+                            sleep(1)
+                            stop = time.time()
+                            self.checkCurrentBoss()
+                            if self.state == state.traQ:
+                                fightstarted = True
+                                break
+                            if checkImg(self.index, self.inFight) is True:
+                                fightstarted = True
+                                break
+                            if (stop-start) > 10:
+                                break
+                        #wait for fight finish
+                        while checkImg(self.index, self.inFight) is True:
+                            sleep(0.6)
+                        if checkImg(self.index, self.inFight) is False:
+                            fightstarted = True
+                            break
                 else:
                     continue
-            pass
-    
-    
 
+                if fightstarted is True:
+                    break
+    
+    
+    def clicktraQ(self):
+        while checkImg(self.index, self.roikhoi) is False or checkImg(self.index, self.qqnTalk) is False:
+            click(self.hwnd, self.traQLoc)
+            sleep(0.6)
+        screen = self.wincapThread.screenshot
+        roikhoiLoc = findImgPoint(self.roikhoi, screen)
+        QLoc = OffsetPoint(roikhoiLoc, 0, -125)
+        click(self.hwnd, QLoc)
+        sleep(0.6)
+        while checkImg(self.index, self.roikhoi) is False or checkImg(self.index, self.qqnTalk) is False:
+            click(self.hwnd, self.traQLoc)
+            sleep(0.6)
+        click(self.hwnd, QLoc)
+        sleep(0.6)
     def worker(self):
        
         while True:
@@ -622,48 +825,41 @@ class auto_TM():
             if w != 1066 or h != 724:
                 ResizeWindow(self.hwnd)
 
-            self.fixThienSu(self.hwnd)
-            self.fixKetBan(self.hwnd)            
+                      
             
             if self.state == state.traQ:
                 #initial click to change map
                 click(self.hwnd, self.traQLoc)
                 
                 #waiting to load map
-                start = time.time()
-                while checkImg(self.index, self.loadmap) is True:
-                    sleep(1)
-                    Next = time.time()
-                    if (Next - start) > 60:
-                        print('error load map')
-                        return
+                checkLoadMap(self.index)
                 while checkImg(self.index, self.dht) is False:
-                    sleep(0.2)
+                    sleep(1)
+                    click(self.hwnd, self.traQLoc)
+                    checkLoadMap(self.index)
                 #click until menu popup
                 
                 if self.delay!= 0:
                     sleep(self.delay)
-                while checkImg(self.index, self.roikhoi) is False or checkImg(self.index, self.qqnTalk) is False:
-                    click(self.hwnd, self.traQLoc)
-                    sleep(0.6)
-                #click traQ
                 
-                screen = self.wincapThread.screenshot
-                roikhoiLoc = findImgPoint(self.roikhoi, screen)
-                QLoc = OffsetPoint(roikhoiLoc, 0, -125)
-                click(self.hwnd, QLoc)
-                sleep(0.5)
-                while checkImg(self.index, self.roikhoi) is False or checkImg(self.index, self.qqnTalk) is False:
-                    click(self.hwnd, self.traQLoc)
-                    sleep(0.5)
-                click(self.hwnd, QLoc)
-                sleep(0.5)
+                #click traQ
+                self.clicktraQ()
+                
                 while checkImg(self.index, self.xong) is False:
-                    sleep(0.5)
-                screen = self.wincapThread.screenshot
-                xongLoc = findImgPoint(self.xong, screen)
-                click(self.hwnd,xongLoc)
-                sleep(1)
+                    sendKey(self.hwnd, win32con.VK_ESCAPE)
+                    sleep(0.6)
+                    self.checkCurrentBoss()
+                    if self.state == state.traQ:
+                        self.clicktraQ()
+                        sleep(0.6)
+                    else:
+                        break
+
+                if self.state == state.traQ:
+                    screen = self.wincapThread.screenshot
+                    xongLoc = findImgPoint(self.xong, screen)
+                    click(self.hwnd,xongLoc)
+                    sleep(1)
 
                 #check Boss Type or Quest Finish and set corresponding state/boss
                 self.currentBoss = 'reset'
@@ -682,15 +878,12 @@ class auto_TM():
                     click(self.hwnd, self.cityLoc)
                     sleep(0.6)
                     #waiting to load map
-                    start = time.time()
-                    while checkImg(self.index, self.loadmap) is True:
-                        sleep(0.5)
-                        Next = time.time()
-                        if (Next - start) > 60:
-                            print('error load map')
-                            return
+                    checkLoadMap(self.index)
                     while checkImg(self.index, self.city) is False:
                         sleep(0.2)
+
+                    
+                    
                     #click Boss phi ma
                     if (self.delay != 0):
                         sleep(self.delay)
@@ -704,15 +897,11 @@ class auto_TM():
                     click(self.hwnd, self.ttlLoc)
                     
                     #waiting to load map
-                    start = time.time()
-                    while checkImg(self.index, self.loadmap) is True:
-                        sleep(0.5)
-                        Next = time.time()
-                        if (Next - start) > 60:
-                            print('error load map')
-                            return
+                    checkLoadMap(self.index)
                     while checkImg(self.index, self.ttl) is False:
                         sleep(0.2)
+
+                   
                     #click Boss cu ma
                     if(self.delay != 0):
                         sleep(self.delay)
@@ -725,89 +914,70 @@ class auto_TM():
                     click(self.hwnd, self.ttlLoc)
                     
                     #waiting to load map
-                    start = time.time()
-                    while checkImg(self.index, self.loadmap) is True:
-                        sleep(0.5)
-                        Next = time.time()
-                        if (Next - start) > 60:
-                            print('error load map')
-                            return
+                    checkLoadMap(self.index)
                     while checkImg(self.index, self.ttl) is False:
                         sleep(0.2)
+                    
+                  
+
                     #click Boss cu thu
                     if self.delay != 0:
                         sleep(self.delay)
                     while checkImg(self.index, self.ttl) is True:
                         self.clickBoss()
 
-                
-                #wait for get in Fight
-                stuckWait = False
-                start = time.time()
-                while checkImg(self.index, self.inFight) is False:
-                    sleep(0.2)
-                    stop = time.time()
-                    if (stop - start) > 30:
-                        if checkImg(self.index, self.xongQ1) is True:
-                            break
-                        if checkImg(self.index, self.xongQ2) is True:
-                            break
-                        #ve dht
-                        click(self.hwnd, self.traQLoc)
-                        #load map
-                        start = time.time()
-                        while checkImg(self.index, self.loadmap) is True:
-                            sleep(0.5)
-                            Next = time.time()
-                            if (Next - start) > 60:
-                                print('error load map')
-                                return
-                        stuckWait = True
-
-                #wait for fight Finish
-                
-                while checkImg(self.index, self.inFight) is True:
-                    sleep(0.2)
-                    
-                    
-                
-                
-                
                 #set state
-                if stuckWait == False:
-                    self.state = state.traQ
-                else:
-                    self.checkCurrentBoss()
+                self.state = state.traQ
                 
 
 
             if self.state == state.reset:
+                sendKey(self.hwnd, win32con.VK_ESCAPE)
+                sleep(0.6)
                 click(self.hwnd, self.nhiemvuLoc)
-                sleep(0.5)
+                sleep(0.6)
+                cothenhan = None
                 screen = self.wincapThread.screenshot
-                cothenhan = findImgPoint(self.menu1, screen)
-                if cothenhan == (0,0):
+                if findImgPoint(self.menu1, screen) == (0,0) and findImgPoint(self.menu2, screen) == (0, 0):
+                    while findImgPoint(self.menu1, screen) == (0,0) and findImgPoint(self.menu2, screen) == (0, 0):
+                        sleep(0.6)
+                        screen = self.wincapThread.screenshot
+                        cothenhan1 = findImgPoint(self.menu1, screen)
+                        if cothenhan1 != (0, 0):
+                            cothenhan = cothenhan1
+                        else:
+                            cothenhan1 = findImgPoint(self.menu2, screen)
+                            if cothenhan1 != (0, 0):
+                                cothenhan = cothenhan1
+                elif findImgPoint(self.menu1, screen) != (0,0):
+                    cothenhan = findImgPoint(self.menu1, screen)
+                elif findImgPoint(self.menu2, screen) != (0, 0):
                     cothenhan = findImgPoint(self.menu2, screen)
-                
                 lienhoan = OffsetPoint(cothenhan, 75, 0)
                 exitP = OffsetPoint(cothenhan, 347, -35)
                 click(self.hwnd, lienhoan)
-                sleep(0.5)
+                sleep(0.6)
                 screen = self.wincapThread.screenshot
                 trianLoc = findImgPoint(self.trian, screen, 0.7)
                 trumaLoc = findImgPoint(self.truma, screen, 0.7)
-                click(self.hwnd, trianLoc)
-                sleep(0.5)
-                click(self.hwnd, trumaLoc)
-                sleep(0.5)
+                if trianLoc != (0,0):
+                    click(self.hwnd, trianLoc)
+                    sleep(0.6)
+                if trumaLoc != (0, 0):
+                    click(self.hwnd, trumaLoc)
+                    sleep(0.6)
                 screen = self.wincapThread.screenshot
                 phuchoiLoc = findImgPoint(self.phuchoi, screen)
-                click(self.hwnd, phuchoiLoc)
-                sleep(0.5)
+                if phuchoiLoc != (0, 0):
+                    click(self.hwnd, phuchoiLoc)
+                    sleep(0.6)
                 click(self.hwnd, exitP)
-                self.state = state.timDanh
+                
+                sleep(1)
+                sendKey(hwnd, win32con.VK_ESCAPE)
                 sleep(1)
                 self.checkCurrentBoss()
+                
                 
                 pass
             
@@ -820,17 +990,14 @@ class auto_TM():
         self.thread = th
         
         self.thread.start()
-        
-        
-        self.hpmp.start()
+        self.running = True
         pass
 
     def stop(self):
         
         if self.thread.killed == False:
-            self.hpmp.stop()
             self.thread.kill()
-
+        self.running = False
         pass
 
 

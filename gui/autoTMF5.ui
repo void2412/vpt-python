@@ -73,16 +73,6 @@
          </column>
          <column>
           <property name="text">
-           <string>job</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>item collecting</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
            <string>status</string>
           </property>
          </column>

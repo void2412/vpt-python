@@ -21,6 +21,14 @@ def startGame(title,link):
     autoUtils.changeWinTitle(hwnd,title)
 
 
+def startGameAuto(title,link, charLoc, kenh):
+    hwnd = autoUtils.getHandle(title)
+    if hwnd != 0:   
+        autoUtils.closeWindow(hwnd)
+    startGame(title, link)
+    hwnd = autoUtils.getHandle(title)
+    auto = autoLogin(hwnd,charLoc,kenh)
+    auto.start()
 
 def getStringOCR(img):
     stringOCR = pytesseract.image_to_string(img, lang='vie', config='--psm 6')
@@ -61,17 +69,17 @@ def getCharLoc(charLoc):
 
 class autoLogin:
     #login vo game after open flash
-    def __init__(self):
+    def __init__(self, hwnd, charLoc, kenh):
         self.batbuoc = getImg('./img/login/batbuoc.png')
         self.lienket = getImg('./img/login/lienketquahan.png')
         self.nhanvat = getImg('./img/login/checkNhanVat.png')
         self.serveroff = getImg('./img/ok.png')
         self.inGame = getImg('./img/login/inGame.png')
         self.vaoGame = getImg('./img/login/finalCheck.png')
-        self.hwnd = 0
-        self.kenh = 7
-        self.charLoc = 1
-        self.kenhdaugiaRect = rect((452,497),(613,517))
+        self.hwnd = hwnd
+        self.kenh = kenh
+        self.charLoc = charLoc
+        self.kenhdaugiaRect = rect((441,470),(606,486))
         self.bbLoc = (527,554)
 
     def batbuocProc(self,hwnd):

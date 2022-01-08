@@ -9,18 +9,22 @@ from openpyxl import Workbook
 from PyQt5.QtCore import *
 import subprocess
 import time
+import wincap
 
 class mainMenu(QMainWindow,autoKiemNL.Ui_mainWindow):
     def __init__(self):
         super(mainMenu, self).__init__()
         self.setupUi(self)
-
-
-
+        x = self.tableWidget.horizontalHeader()
+        x.setSectionResizeMode(2, QHeaderView.Stretch)
+        x.resizeSection(4,300)
+        x.resizeSection(3,150)
 
 
 class cauca():
-
+    def __init__(self):
+        pass
+        
     pass
 
 class trongcay():
